@@ -37,6 +37,10 @@ interval: 35
 [gmail]
 username: myuser
 password: mypass
+# mark_viewed:
+#   0 - show new/unread messages in each update
+#   1 - show new/unread messages one time
+mark_viewed: 1
 interval: 60
 
 [labels]

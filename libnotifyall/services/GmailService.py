@@ -33,6 +33,7 @@ class GmailService(Service):
         config.read(self.configfile)
         self.username = config.get("gmail", "username")
         self.password = config.get("gmail", "password")
+        self.mark_viewed = config.getboolean("gmail", "mark_viewed")
         self.interval = int(config.get("gmail", "interval"))
         self.labels = config.items("labels")
         self.atom_url = "https://mail.google.com/mail/feed/atom"
