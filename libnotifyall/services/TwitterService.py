@@ -43,7 +43,13 @@ class TwitterService(Service):
         print "[Twitter] Updating...",
         self.messages = []
         api = twitter.Api(self.username, self.password)
-        statuses = api.GetFriendsTimeline(since_id = self.last_id)
+        try:
+            statuses = api.GetFriendsTimeline(since_id = self.last_id)
+            print "[OK]"
+        except:
+            print "[ERROR]",
+            print "(You must verify your username or password)"
+            return 1
         quantity = len(statuses)
         i = 0
         for status in self._reverse(statuses):
@@ -58,6 +64,5 @@ class TwitterService(Service):
                 m = Message(status.id, 'Twitter', status.user.name + " (" + status.user.screen_name + ")", status.text, self.configdir + "/twitter/" + str(status.user.id) + ".jpg")
                 self.messages.append(m)
         self.first_run = False
-        print "[OK]"
 
 

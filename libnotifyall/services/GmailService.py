@@ -38,9 +38,6 @@ class GmailService(Service):
         self.atom_url = "https://mail.google.com/mail/feed/atom"
 
     def update(self):
-        print "[" + time.strftime("%H:%M") + "]",
-        print "[Gmail] Updating...",
-        #self.messages = []
 
         auth = urllib2.HTTPBasicAuthHandler()
         auth.add_password("New mail feed", self.atom_url, self.username, self.password)
@@ -48,14 +45,18 @@ class GmailService(Service):
 
         if len(self.labels) > 0:
             for label in self.labels:
-
+                print "[" + time.strftime("%H:%M") + "]",
+                print "[Gmail] Updating " + label[1] + "...",
                 try:
                     feed = opener.open(self.atom_url + "/" + label[1])
+                    print "[OK]"
                 except urllib2.HTTPError as detail:
-                    print detail
+                    print "[ERROR]",
                     if str(detail) == "HTTP Error 401: Unauthorized":
-                        print "You must verify your username and password in " + self.configfile
-                    sys.exit(1)
+                        print "(You must verify your username or password)"
+                    else:
+                        print ""
+                    return 1
 
                 a = feedparser.parse(feed)
                 if len(a['entries']) > 0:
@@ -68,5 +69,4 @@ class GmailService(Service):
                         if not message_exists:
                             m = Message(entry.link, 'Gmail', entry.author_detail.name, entry.title, os.getcwd() + "/icons/" + "gmail.png")
                             self.messages.append(m)
-        print "[OK]"
 

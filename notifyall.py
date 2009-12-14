@@ -49,6 +49,7 @@ label3: Label3
     f.close()
     print "This is the first time you run Notify All"
     print "You must edit your user and password in " + CONFIG_FILE 
+    print "and re-run Notify All."
     sys.exit(1)
 
 
