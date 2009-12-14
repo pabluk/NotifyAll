@@ -50,7 +50,7 @@ class FacebookService(Service):
             return 1
 
         if len(a['entries']) > 0:
-            for entry in a['entries']:
+            for entry in self._reverse(a['entries']):
                 message_exists = False
                 for message in self.messages:
                     if message.id == entry.link:
