@@ -20,7 +20,7 @@
 
 from libnotifyall.services.TwitterService import TwitterService
 from libnotifyall.services.GmailService import GmailService
-import os, time
+import os, time, sys
 
 from libnotifyall import CONFIG_DIR, CONFIG_FILE
 
@@ -47,6 +47,9 @@ label3: Label3
 """
     f.write(configdata)
     f.close()
+    print "This is the first time you run Notify All"
+    print "You must edit your user and password in " + CONFIG_FILE 
+    sys.exit(1)
 
 
 if not os.path.exists(CONFIG_DIR):
