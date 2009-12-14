@@ -40,10 +40,19 @@ password: mypass
 interval: 60
 
 [labels]
-# Add labels from you GMail account to be checked
+# labels to check in GMail
+# Inbox is mandatory
 label1: Inbox
 label2: Label2
 label3: Label3
+
+[facebook]
+# to see this values you must 
+# visit http://www.facebook.com/notifications.php
+# in your Facebook account and see the link for RSS
+id: 0000
+viewer: 0000
+key: 0000
 
 """
     f.write(configdata)
