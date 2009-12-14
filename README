@@ -1,5 +1,5 @@
 
-NotifyAll v0.1
+Notify All v0.1
 
 About
 =====
@@ -22,8 +22,8 @@ Usage
 =====
 
 1. install python-notify, python-feedparser, python-twitter
-3. edit user, password and additionals labels to check in app.cfg
-4. run ./notifyall
+2. run ./notifyall
+3. edit user, password and additionals labels in ~/.notifyall/notifyall.cfg
 
 
 License
