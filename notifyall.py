@@ -20,6 +20,7 @@
 
 from libnotifyall.services.TwitterService import TwitterService
 from libnotifyall.services.GmailService import GmailService
+from libnotifyall.services.FacebookService import FacebookService
 import os, time, sys
 
 from libnotifyall import CONFIG_DIR, CONFIG_FILE
@@ -58,12 +59,15 @@ if __name__ == "__main__":
     if not os.path.exists(CONFIG_DIR):
         create_initial_config()
 
-    s1 = TwitterService()
-    s2 = GmailService()
+    #s1 = TwitterService()
+    #s2 = GmailService()
+    s3 = FacebookService()
     while 1:
-        s1.update()
-        s1.show_messages()
-        s2.update()
-        s2.show_messages()
+        #s1.update()
+        #s1.show_messages()
+        #s2.update()
+        #s2.show_messages()
+        s3.update()
+        s3.show_messages()
         time.sleep(80)
 
