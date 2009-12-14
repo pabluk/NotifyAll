@@ -53,16 +53,17 @@ label3: Label3
     sys.exit(1)
 
 
-if not os.path.exists(CONFIG_DIR):
-    create_initial_config()
+if __name__ == "__main__":
 
+    if not os.path.exists(CONFIG_DIR):
+        create_initial_config()
 
-s1 = TwitterService()
-s2 = GmailService()
-while 1:
-    s1.update()
-    s1.show_messages()
-    s2.update()
-    s2.show_messages()
-    time.sleep(80)
+    s1 = TwitterService()
+    s2 = GmailService()
+    while 1:
+        s1.update()
+        s1.show_messages()
+        s2.update()
+        s2.show_messages()
+        time.sleep(80)
 
