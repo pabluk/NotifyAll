@@ -18,11 +18,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from libnotifyme.services.TwitterService import TwitterService
-from libnotifyme.services.GmailService import GmailService
+from libnotifyall.services.TwitterService import TwitterService
+from libnotifyall.services.GmailService import GmailService
 import os, time
 
-from libnotifyme import CONFIG_DIR, CONFIG_FILE
+from libnotifyall import CONFIG_DIR, CONFIG_FILE
 
 def create_initial_config():
     os.mkdir(CONFIG_DIR)

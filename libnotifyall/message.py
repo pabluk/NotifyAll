@@ -31,7 +31,7 @@ class Message:
         self.viewed = False
 
     def show(self):
-        pynotify.init('NotifyMe')
+        pynotify.init('Notify All')
         m = pynotify.Notification(self.title, self.summary, self.icon)
         m.show()
 
