@@ -20,7 +20,38 @@
 
 from libnotifyme.services.TwitterService import TwitterService
 from libnotifyme.services.GmailService import GmailService
-import time
+import os, time
+
+from libnotifyme import CONFIG_DIR, CONFIG_FILE
+
+def create_initial_config():
+    os.mkdir(CONFIG_DIR)
+    f = open(CONFIG_FILE, 'w')
+    configdata = """
+[twitter]
+username: myuser
+password: mypass
+interval: 35
+
+[gmail]
+username: myuser
+password: mypass
+interval: 60
+
+[labels]
+# Add labels from you GMail account to be checked
+label1: Inbox
+label2: Label2
+label3: Label3
+
+"""
+    f.write(configdata)
+    f.close()
+
+
+if not os.path.exists(CONFIG_DIR):
+    create_initial_config()
+
 
 s1 = TwitterService()
 s2 = GmailService()

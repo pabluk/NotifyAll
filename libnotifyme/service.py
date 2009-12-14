@@ -18,12 +18,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from libnotifyme import CONFIG_DIR, CONFIG_FILE
 import time
 
 class Service:
 
     def __init__(self):
-        self.configfile = 'app.cfg'
+
+        self.configfile = CONFIG_FILE
+        self.configdir = CONFIG_DIR
         self.last_id = 0
         self.messages = []
         self.first_run = True

@@ -38,8 +38,8 @@ class GmailService(Service):
         self.atom_url = "https://mail.google.com/mail/feed/atom"
 
     def update(self):
-        #print "[" + time.strftime("%H:%M") + "]",
-        #print "[Gmail] Updating...",
+        print "[" + time.strftime("%H:%M") + "]",
+        print "[Gmail] Updating...",
         #self.messages = []
 
         auth = urllib2.HTTPBasicAuthHandler()
@@ -66,7 +66,7 @@ class GmailService(Service):
                                 message_exists = True
 
                         if not message_exists:
-                            m = Message(entry.link, 'Gmail', entry.author_detail.name, entry.title, os.getcwd() + "/" + "gmail.png")
+                            m = Message(entry.link, 'Gmail', entry.author_detail.name, entry.title, os.getcwd() + "/icons/" + "gmail.png")
                             self.messages.append(m)
-        #print "[OK]"
+        print "[OK]"
 
