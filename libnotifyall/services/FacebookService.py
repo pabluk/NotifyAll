@@ -57,6 +57,6 @@ class FacebookService(Service):
                         message_exists = True
 
                 if not message_exists:
-                    m = Message(entry.link, 'Facebook', 'Facebook', entry.title, os.getcwd() + "/icons/" + "facebook.png")
+                    m = Message(entry.link, 'Facebook', entry.title, entry.date, os.getcwd() + "/icons/" + "facebook.png")
                     self.messages.append(m)
 
