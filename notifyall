@@ -69,11 +69,18 @@ interval: 60
     sys.exit(1)
 
 def disable_show(signum, frame):
-    s1.disable_show = True
-    s2.disable_show = True
-    s3.disable_show = True
+    if s1.disable_show:
+        print "Enabling notifications..."
+        s1.disable_show = False
+        s2.disable_show = False
+        s3.disable_show = False
+    else:
+        print "Disabling notifications..."
+        s1.disable_show = True
+        s2.disable_show = True
+        s3.disable_show = True
 
-signal.signal(SIGTSTP, disable_show)
+signal(SIGTSTP, disable_show)
 
 if __name__ == "__main__":
 

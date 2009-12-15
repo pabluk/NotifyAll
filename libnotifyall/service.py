@@ -30,6 +30,7 @@ class Service:
         self.last_id = 0
         self.messages = []
         self.first_run = True
+        self.disable_show = False
         self.load_config()
 
     def load_config(self):
@@ -39,6 +40,7 @@ class Service:
         pass
 
     def show_messages(self):
+        if self.disable_show: return 0
         for msg in self.messages:
             if msg.viewed == False:
                 print "[" + time.strftime("%H:%M") + "]",

@@ -41,7 +41,7 @@ class TwitterService(Service):
     def update(self):
         print "[" + time.strftime("%H:%M") + "]",
         print "[Twitter] Updating...",
-        self.messages = []
+        if not self.disable_show: self.messages = []
         api = twitter.Api(self.username, self.password)
         try:
             statuses = api.GetFriendsTimeline(since_id = self.last_id)
