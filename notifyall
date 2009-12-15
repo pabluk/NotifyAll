@@ -22,6 +22,7 @@ from libnotifyall.services.TwitterService import TwitterService
 from libnotifyall.services.GmailService import GmailService
 from libnotifyall.services.FacebookService import FacebookService
 import os, time, sys
+from signal import *
 
 from libnotifyall import CONFIG_DIR, CONFIG_FILE
 
@@ -67,6 +68,12 @@ interval: 60
     print "and re-run Notify All."
     sys.exit(1)
 
+def disable_show(signum, frame):
+    s1.disable_show = True
+    s2.disable_show = True
+    s3.disable_show = True
+
+signal.signal(SIGTSTP, disable_show)
 
 if __name__ == "__main__":
 
