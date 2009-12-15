@@ -1,10 +1,10 @@
 
-Notify All v0.1
+Notify All v0.2.1
 
 About
 =====
 
-Notifications using libnotify to show updates in Twitter, GMail, Facebook, etc
+Notifications for GNOME Desktop using libnotify to show updates from Twitter, GMail, Facebook, etc
 
 * Notifications with libnotify
 * Parse GMail Atom feed
