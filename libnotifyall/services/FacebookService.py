@@ -49,14 +49,16 @@ class FacebookService(Service):
             print "(You must verify your configuration)"
             return 1
 
-        if len(a['entries']) > 0:
-            for entry in self._reverse(a['entries']):
-                message_exists = False
-                for message in self.messages:
-                    if message.id == entry.link:
-                        message_exists = True
+        for entry in self._reverse(a['entries']):
+            message_exists = False
+            for message in self.messages:
+                if message.id == entry.link:
+                    message_exists = True
 
-                if not message_exists:
-                    m = Message(entry.link, 'Facebook', entry.title, entry.date, os.getcwd() + "/icons/" + "facebook.png")
-                    self.messages.append(m)
+            if not message_exists:
+                m = Message(entry.link, 'Facebook', entry.title, entry.date, os.getcwd() + "/icons/" + "facebook.png")
+                if self.first_run: m.viewed = True
+                self.messages.append(m)
+
+        self.first_run = False
 
