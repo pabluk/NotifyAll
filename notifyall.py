@@ -57,6 +57,7 @@ label3: Label3
 id: 0000
 viewer: 0000
 key: 0000
+interval: 60
 
 """
     f.write(configdata)
