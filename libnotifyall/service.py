@@ -30,7 +30,6 @@ class Service:
         self.last_id = 0
         self.messages = []
         self.first_run = True
-        self.mark_viewed = True
         self.load_config()
 
     def load_config(self):
@@ -45,8 +44,7 @@ class Service:
                 print "[" + time.strftime("%H:%M") + "]",
                 print "[" + msg.service + "] Showing... " + msg.title + ": " + msg.summary
                 msg.show()
-                if self.mark_viewed:
-                    msg.viewed = True
+                msg.viewed = True
 
     def _reverse(self, data):
         for index in range(len(data)-1, -1, -1):

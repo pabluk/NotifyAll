@@ -84,4 +84,5 @@ if __name__ == "__main__":
         s3.update()
         s3.show_messages()
         time.sleep(80)
+        print ""
 

@@ -70,4 +70,8 @@ class GmailService(Service):
                         if not message_exists:
                             m = Message(entry.link, 'Gmail', entry.author_detail.name, entry.title, os.getcwd() + "/icons/" + "gmail.png")
                             self.messages.append(m)
+                        else:
+                            if not self.mark_viewed:
+                                message.viewed = False
+
 
