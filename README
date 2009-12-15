@@ -21,7 +21,11 @@ Juan Pablo Seminario
 Usage
 =====
 
-1. install python-notify, python-feedparser, python-twitter
+1. install dependencies
+1.1 Ubuntu
+    sudo aptitude install python-notify python-feedparser python-twitter
+1.2 Arch Linux
+    sudo pacman -S python-notify python-feedparser python-twitter
 2. run ./notifyall
 3. edit user, password and additionals labels in ~/.notifyall/notifyall.cfg
 
