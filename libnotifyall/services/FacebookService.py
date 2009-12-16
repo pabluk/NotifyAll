@@ -60,8 +60,3 @@ class FacebookService(Service):
                 m = Message(entry.link, 'Facebook', entry.title, entry.date, os.getcwd() + "/icons/" + "facebook.png")
                 self.messages.append(m)
 
-
-    def _reverse(self, data):
-        for index in range(len(data)-1, -1, -1):
-            yield data[index]
-

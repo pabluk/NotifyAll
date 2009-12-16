@@ -64,8 +64,3 @@ class TwitterService(Service):
             m = Message(status.id, 'Twitter', status.user.name + " (" + status.user.screen_name + ")", status.text, self.configdir + "/twitter/" + str(status.user.id) + ".jpg")
             self.messages.append(m)
 
-    def _reverse(self, data):
-        for index in range(len(data)-1, -1, -1):
-            yield data[index]
-
-

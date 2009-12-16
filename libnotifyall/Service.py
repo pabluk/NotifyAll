@@ -46,4 +46,7 @@ class Service:
                 msg.show()
                 msg.viewed = True
 
+    def _reverse(self, data):
+        for index in range(len(data)-1, -1, -1):
+            yield data[index]
 
