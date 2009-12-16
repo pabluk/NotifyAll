@@ -19,9 +19,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from libnotifyall.NotifyAll import NotifyAll
+import sys, signal
 
 if __name__ == "__main__":
 
     n = NotifyAll()
     n.start()
 
+    try:
+        signal.pause()
+    except KeyboardInterrupt:
+        print ""
+        sys.exit(1)
