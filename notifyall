@@ -19,15 +19,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from libnotifyall.NotifyAll import NotifyAll
-import time
 
 if __name__ == "__main__":
 
     n = NotifyAll()
-
-    while 1:
-        n.updates()
-        n.show_messages()
-        print ""
-        time.sleep(80)
+    n.start()
 

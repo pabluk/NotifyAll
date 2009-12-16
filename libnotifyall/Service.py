@@ -19,11 +19,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from libnotifyall import CONFIG_DIR, CONFIG_FILE
+from threading import Thread
 import time
 
-class Service:
+class Service(Thread):
 
     def __init__(self):
+        Thread.__init__(self)
 
         self.configfile = CONFIG_FILE
         self.configdir = CONFIG_DIR
@@ -49,4 +51,11 @@ class Service:
     def _reverse(self, data):
         for index in range(len(data)-1, -1, -1):
             yield data[index]
+
+    def run(self):
+        while True:
+            self.update()
+            self.show_messages()
+            time.sleep(self.interval)
+
 

@@ -25,8 +25,6 @@ from libnotifyall.services.FacebookService import FacebookService
 from libnotifyall import CONFIG_DIR, CONFIG_FILE
 import os, time, sys
 
-
-
 class NotifyAll:
 
     def __init__(self):
@@ -87,11 +85,9 @@ interval: 60
         for service in self.services:
             service.load_config()
 
-    def updates(self):
+    def start(self):
         for service in self.services:
-            service.update()
+            service.start()
 
-    def show_messages(self):
-        for service in self.services:
-            service.show_messages()
+
 
