@@ -23,16 +23,7 @@ import time
 
 class Service:
 
-    def __init__(self, service):
-
-        if service == 'Twitter':
-            self.type = TwitterService()
-        elif service == 'Gmail':
-            self.type = GmailService()
-        elif service == 'Facebook':
-            self.type = FacebookService()
-        else:
-            print "Error: service unavailable."
+    def __init__(self):
 
         self.configfile = CONFIG_FILE
         self.configdir = CONFIG_DIR

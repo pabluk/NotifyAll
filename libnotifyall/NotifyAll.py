@@ -18,7 +18,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from libnotifyall.ServiceFactory import ServiceFactory
+from libnotifyall.services.TwitterService import TwitterService
+from libnotifyall.services.GmailService import GmailService
+from libnotifyall.services.FacebookService import FacebookService
+
 from libnotifyall import CONFIG_DIR, CONFIG_FILE
 import os, time, sys
 
@@ -76,17 +79,17 @@ interval: 60
     
     
     def _register_services(self):
-        availables = ['Twitter', 'Gmail', 'Facebook']
-        for available in availables:
-            self.services.append(ServiceFactory(available))
+        availables = dict(Twitter=TwitterService, Gmail=GmailService, Facebook=FacebookService)
+        for name in iter(availables):
+            self.services.append(availables[name]())
 
     def _load_config(self):
         for service in self.services:
-            service.type.load_config()
+            service.load_config()
 
     def updates(self):
         for service in self.services:
-            service.type.update()
+            service.update()
 
     def show_messages(self):
         for service in self.services:
