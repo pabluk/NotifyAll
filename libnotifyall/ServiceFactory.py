@@ -18,36 +18,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from libnotifyall import CONFIG_DIR, CONFIG_FILE
-import time
+from libnotifyall.services.TwitterService import TwitterService
+from libnotifyall.services.GmailService import GmailService
+from libnotifyall.services.FacebookService import FacebookService
 
-class Service:
+class ServiceFactory:
 
-    def __init__(self):
-
-        self.configfile = CONFIG_FILE
-        self.configdir = CONFIG_DIR
-        self.last_id = 0
-        self.messages = []
-        self.first_run = True
-        self.load_config()
-
-    def load_config(self):
-        pass
-
-    def update(self):
-        pass
-
-    def show_messages(self):
-        for msg in self.messages:
-            if msg.viewed == False:
-                print "[" + time.strftime("%H:%M") + "]",
-                print "[" + msg.service + "] Showing... " + msg.title + ": " + msg.summary
-                msg.show()
-                msg.viewed = True
-
-    def _reverse(self, data):
-        for index in range(len(data)-1, -1, -1):
-            yield data[index]
-
+    def __init__(service):
+        if service == 'Twitter':
+            return TwitterService()
+        elif service == 'Gmail':
+            return GmailService()
+        elif service == 'Facebook':
+            return FacebookService()
+        else:
+            print "Error: service unavailable."
 

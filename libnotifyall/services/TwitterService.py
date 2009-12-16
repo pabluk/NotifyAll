@@ -18,8 +18,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from libnotifyall.message import Message
-from libnotifyall.service import Service
+from libnotifyall.Message import Message
+from libnotifyall.Service import Service
+from libnotifyall import CONFIG_DIR, CONFIG_FILE
 
 import twitter
 import ConfigParser
@@ -31,12 +32,12 @@ class TwitterService(Service):
 
         config = ConfigParser.ConfigParser()
 
-        config.read(self.configfile)
+        config.read(CONFIG_FILE)
         self.username = config.get("twitter", "username")
         self.password = config.get("twitter", "password")
         self.interval = int(config.get("twitter", "interval"))
-        if not os.path.exists(self.configdir + "/twitter"):
-            os.mkdir(self.configdir + "/twitter")
+        if not os.path.exists(CONFIG_DIR + "/twitter"):
+            os.mkdir(CONFIG_DIR + "/twitter")
 
     def update(self):
         print "[" + time.strftime("%H:%M") + "]",
@@ -53,14 +54,18 @@ class TwitterService(Service):
         quantity = len(statuses)
         i = 0
         for status in self._reverse(statuses):
-            if not os.path.exists(self.configdir + "/twitter/" + str(status.user.id) + ".jpg"):
+            if not os.path.exists(CONFIG_DIR + "/twitter/" + str(status.user.id) + ".jpg"):
                 avatar = urllib2.urlopen(status.user.profile_image_url)
-                avatar_file = open(self.configdir + "/twitter/" + str(status.user.id) + '.jpg', 'wb')
+                avatar_file = open(CONFIG_DIR + "/twitter/" + str(status.user.id) + '.jpg', 'wb')
                 avatar_file.write(avatar.read())
                 avatar_file.close()
 
             self.last_id = status.id
             m = Message(status.id, 'Twitter', status.user.name + " (" + status.user.screen_name + ")", status.text, self.configdir + "/twitter/" + str(status.user.id) + ".jpg")
             self.messages.append(m)
+
+    def _reverse(self, data):
+        for index in range(len(data)-1, -1, -1):
+            yield data[index]
 
 

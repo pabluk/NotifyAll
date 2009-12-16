@@ -18,16 +18,32 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from libnotifyall.NotifyAll import NotifyAll
+from libnotifyall import CONFIG_DIR, CONFIG_FILE
 import time
 
-if __name__ == "__main__":
+class Service:
 
-    n = NotifyAll()
+    def __init__(self):
 
-    while 1:
-        n.updates()
-        n.show_messages()
-        print ""
-        time.sleep(35)
+        self.configfile = CONFIG_FILE
+        self.configdir = CONFIG_DIR
+        self.last_id = 0
+        self.messages = []
+        self.first_run = True
+        self.load_config()
+
+    def load_config(self):
+        pass
+
+    def update(self):
+        pass
+
+    def show_messages(self):
+        for msg in self.messages:
+            if msg.viewed == False:
+                print "[" + time.strftime("%H:%M") + "]",
+                print "[" + msg.service + "] Showing... " + msg.title + ": " + msg.summary
+                msg.show()
+                msg.viewed = True
+
 
