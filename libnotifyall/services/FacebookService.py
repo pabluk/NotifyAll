@@ -57,8 +57,5 @@ class FacebookService(Service):
 
             if not message_exists:
                 m = Message(entry.link, 'Facebook', entry.title, entry.date, os.getcwd() + "/icons/" + "facebook.png")
-                if self.first_run: m.viewed = True
                 self.messages.append(m)
-
-        self.first_run = False
 

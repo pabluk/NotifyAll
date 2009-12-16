@@ -60,9 +60,7 @@ class TwitterService(Service):
                 avatar_file.close()
 
             self.last_id = status.id
-            if not self.first_run:
-                m = Message(status.id, 'Twitter', status.user.name + " (" + status.user.screen_name + ")", status.text, self.configdir + "/twitter/" + str(status.user.id) + ".jpg")
-                self.messages.append(m)
-        self.first_run = False
+            m = Message(status.id, 'Twitter', status.user.name + " (" + status.user.screen_name + ")", status.text, self.configdir + "/twitter/" + str(status.user.id) + ".jpg")
+            self.messages.append(m)
 
 
