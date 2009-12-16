@@ -28,6 +28,7 @@ import os, urllib2, time, sys
 class GmailService(Service):
 
     def load_config(self):
+        Service.load_config(self)
 
         config = ConfigParser.ConfigParser()
 
@@ -72,4 +73,5 @@ class GmailService(Service):
                             if not self.mark_viewed:
                                 message.viewed = False
 
+        self.first_run = False
 

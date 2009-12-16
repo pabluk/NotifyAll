@@ -29,6 +29,7 @@ import os, urllib2, time
 class TwitterService(Service):
 
     def load_config(self):
+        Service.load_config(self)
 
         config = ConfigParser.ConfigParser()
 
@@ -58,6 +59,8 @@ class TwitterService(Service):
                 avatar_file.close()
 
             self.last_id = status.id
-            m = Message(status.id, 'Twitter', status.user.name + " (" + status.user.screen_name + ")", status.text, self.configdir + "/twitter/" + str(status.user.id) + ".jpg")
-            self.messages.append(m)
+            if not (self.ignore_init_msgs and self.first_run):
+                m = Message(status.id, 'Twitter', status.user.name + " (" + status.user.screen_name + ")", status.text, self.configdir + "/twitter/" + str(status.user.id) + ".jpg")
+                self.messages.append(m)
 
+        self.first_run = False

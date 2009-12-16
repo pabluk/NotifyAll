@@ -20,6 +20,7 @@
 
 from libnotifyall import CONFIG_DIR, CONFIG_FILE
 from threading import Thread
+import ConfigParser
 import time
 
 class Service(Thread):
@@ -35,18 +36,22 @@ class Service(Thread):
         self.load_config()
 
     def load_config(self):
-        pass
+        config = ConfigParser.ConfigParser()
+
+        config.read(CONFIG_FILE)
+        self.ignore_init_msgs = config.get("notifyall", "ignore_init_msgs")
+        self.disable_libnotify = config.get("notifyall", "disable_libnotify")
 
     def update(self):
         pass
 
     def show_messages(self):
         for msg in self.messages:
-            if msg.viewed == False:
-                print "[" + time.strftime("%H:%M") + "]",
-                print "[" + msg.service + "] Showing... " + msg.title + ": " + msg.summary
-                msg.show()
-                msg.viewed = True
+            if not msg.viewed:
+                print "[" + time.strftime("%H:%M") + "] [" + msg.service + "] Showing... " + msg.title + ": " + msg.summary
+                if not self.disable_libnotify:
+                    msg.show()
+                    msg.viewed = True
 
     def _reverse(self, data):
         for index in range(len(data)-1, -1, -1):
