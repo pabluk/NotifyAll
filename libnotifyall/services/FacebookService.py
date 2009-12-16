@@ -18,8 +18,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from libnotifyall.message import Message
-from libnotifyall.service import Service
+from libnotifyall.Message import Message
+from libnotifyall.Service import Service
+from libnotifyall import CONFIG_DIR, CONFIG_FILE
 import feedparser
 import ConfigParser
 import os, urllib2, time, sys
@@ -30,7 +31,7 @@ class FacebookService(Service):
 
         config = ConfigParser.ConfigParser()
 
-        config.read(self.configfile)
+        config.read(CONFIG_FILE)
         self.fbid = config.get("facebook", "id")
         self.viewer = config.get("facebook", "viewer")
         self.key = config.get("facebook", "key")
@@ -61,4 +62,9 @@ class FacebookService(Service):
                 self.messages.append(m)
 
         self.first_run = False
+
+    def _reverse(self, data):
+        for index in range(len(data)-1, -1, -1):
+            yield data[index]
+
 

@@ -18,8 +18,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from libnotifyall.message import Message
-from libnotifyall.service import Service
+from libnotifyall.Message import Message
+from libnotifyall.Service import Service
+from libnotifyall import CONFIG_DIR, CONFIG_FILE
 import feedparser
 import ConfigParser
 import os, urllib2, time, sys
@@ -30,7 +31,7 @@ class GmailService(Service):
 
         config = ConfigParser.ConfigParser()
 
-        config.read(self.configfile)
+        config.read(CONFIG_FILE)
         self.username = config.get("gmail", "username")
         self.password = config.get("gmail", "password")
         self.mark_viewed = config.getboolean("gmail", "mark_viewed")
