@@ -53,6 +53,7 @@ class FacebookService(Service):
             for message in self.messages:
                 if message.id == entry.link:
                     message_exists = True
+                    break
 
             if not message_exists:
                 m = Message(entry.link, 'Facebook', entry.title, entry.date, os.getcwd() + "/icons/" + "facebook.png")

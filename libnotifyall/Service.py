@@ -33,14 +33,16 @@ class Service(Thread):
         self.last_id = 0
         self.messages = []
         self.first_run = True
+        self.ignore_init_msgs = False
+        self.disable_libnotify = False
         self.load_config()
 
     def load_config(self):
         config = ConfigParser.ConfigParser()
 
         config.read(CONFIG_FILE)
-        self.ignore_init_msgs = config.get("notifyall", "ignore_init_msgs")
-        self.disable_libnotify = config.get("notifyall", "disable_libnotify")
+        self.ignore_init_msgs = config.getboolean("notifyall", "ignore_init_msgs")
+        self.disable_libnotify = config.getboolean("notifyall", "disable_libnotify")
 
     def update(self):
         pass
