@@ -40,14 +40,11 @@ class FacebookService(Service):
 
     def update(self):
 
-        print "[" + time.strftime("%H:%M") + "]",
-        print "[Facebook] Updating ...",
         try:
             a = feedparser.parse(self.feed_url)
-            print "[OK]"
+            print "[" + time.strftime("%H:%M") + "] [Facebook] Update... [OK]"
         except:
-            print "[ERROR]",
-            print "(You must verify your configuration)"
+            print "[" + time.strftime("%H:%M") + "] [Facebook] Update... [ERROR]"
             return 1
 
         for entry in self._reverse(a['entries']):

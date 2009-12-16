@@ -47,17 +47,14 @@ class GmailService(Service):
 
         if len(self.labels) > 0:
             for label in self.labels:
-                print "[" + time.strftime("%H:%M") + "]",
-                print "[Gmail] Updating " + label[1] + "...",
                 try:
                     feed = opener.open(self.atom_url + "/" + label[1])
-                    print "[OK]"
+                    print "[" + time.strftime("%H:%M") + "] [Gmail] " + label[1] + " update... [OK]"
                 except urllib2.HTTPError as detail:
-                    print "[ERROR]",
                     if str(detail) == "HTTP Error 401: Unauthorized":
-                        print "(You must verify your username or password)"
+                        print "[" + time.strftime("%H:%M") + "] [Gmail] " + label[1] + " update... [ERROR] (You must verify your username or password)"
                     else:
-                        print ""
+                        print "[" + time.strftime("%H:%M") + "] [Gmail] " + label[1] + " update... [ERROR]"
                     return 1
 
                 a = feedparser.parse(feed)

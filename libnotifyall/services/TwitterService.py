@@ -40,16 +40,13 @@ class TwitterService(Service):
             os.mkdir(CONFIG_DIR + "/twitter")
 
     def update(self):
-        print "[" + time.strftime("%H:%M") + "]",
-        print "[Twitter] Updating...",
         self.messages = []
         api = twitter.Api(self.username, self.password)
         try:
             statuses = api.GetFriendsTimeline(since_id = self.last_id)
-            print "[OK]"
+            print "[" + time.strftime("%H:%M") + "] [Twitter] Update... [OK]"
         except:
-            print "[ERROR]",
-            print "(You must verify your username or password)"
+            print "[" + time.strftime("%H:%M") + "] [Twitter] Update... [ERROR]"
             return 1
         quantity = len(statuses)
         i = 0
