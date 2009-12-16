@@ -29,5 +29,5 @@ if __name__ == "__main__":
         n.updates()
         n.show_messages()
         print ""
-        time.sleep(35)
+        time.sleep(80)
 
