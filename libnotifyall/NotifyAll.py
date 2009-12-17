@@ -74,6 +74,14 @@ id: 0000
 viewer: 0000
 key: 0000
 interval: 60
+
+[feed]
+interval: 120
+
+[feeds]
+url1: http://barrapunto.com/barrapunto.rss
+url2: http://planet.gnome.org/atom.xml
+
 """
         f.write(configdata)
         f.close()
