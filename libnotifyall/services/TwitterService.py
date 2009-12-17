@@ -46,27 +46,29 @@ class TwitterService(Service):
             os.mkdir(CONFIG_DIR + "/twitter")
 
     def update(self):
+
         self.messages = []
         api = twitter.Api(self.username, self.password)
+
         try:
             statuses = api.GetFriendsTimeline(since_id = self.last_id)
             logging.debug("[Twitter] Update... OK")
         except:
             logging.error("[Twitter] Update... ERROR")
             return 1
-        quantity = len(statuses)
-        i = 0
-        for status in self._reverse(statuses):
-            if not os.path.exists(CONFIG_DIR + "/twitter/" + \
-                                  str(status.user.id) + ".jpg"):
-                avatar = urllib2.urlopen(status.user.profile_image_url)
-                avatar_file = open(CONFIG_DIR + "/twitter/" + \
-                                   str(status.user.id) + '.jpg', 'wb')
-                avatar_file.write(avatar.read())
-                avatar_file.close()
 
+        for status in self._reverse(statuses):
             self.last_id = status.id
             if not (self.ignore_init_msgs and self.first_run):
+
+                if not os.path.exists(CONFIG_DIR + "/twitter/" + \
+                                      str(status.user.id) + ".jpg"):
+                    avatar = urllib2.urlopen(status.user.profile_image_url)
+                    avatar_file = open(CONFIG_DIR + "/twitter/" + \
+                                       str(status.user.id) + '.jpg', 'wb')
+                    avatar_file.write(avatar.read())
+                    avatar_file.close()
+
                 m = Message(status.id, 'Twitter',
                             status.user.name + " (" + \
                             status.user.screen_name + ")",
