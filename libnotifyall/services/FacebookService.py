@@ -61,6 +61,7 @@ class FacebookService(Service):
 
         for entry in self._reverse(a['entries']):
             message_exists = False
+
             for message in self.messages:
                 if message.id == entry.link:
                     message_exists = True
@@ -70,10 +71,9 @@ class FacebookService(Service):
                 m = Message(entry.link, 'Facebook',
                             entry.title, entry.date,
                             os.getcwd() + "/icons/" + "facebook.png")
-
                 if self.ignore_init_msgs and self.first_run:
                     m.viewed = True
-
                 self.messages.append(m)
 
         self.first_run = False
+
