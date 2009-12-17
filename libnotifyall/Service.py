@@ -19,9 +19,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from libnotifyall import CONFIG_DIR, CONFIG_FILE
+from libnotifyall import Logger
 from threading import Thread
 import ConfigParser
 import time
+import logging
 
 class Service(Thread):
 
@@ -50,7 +52,7 @@ class Service(Thread):
     def show_messages(self):
         for msg in self.messages:
             if not msg.viewed:
-                print "[" + time.strftime("%H:%M") + "] [" + msg.service + "] Showing... " + msg.title + ": " + msg.summary
+                logging.info("[" + msg.service + "] " + msg.title + ": " + msg.summary)
                 if not self.disable_libnotify:
                     msg.show()
                     msg.viewed = True

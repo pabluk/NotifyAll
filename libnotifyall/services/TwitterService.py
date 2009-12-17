@@ -21,7 +21,7 @@
 from libnotifyall.Message import Message
 from libnotifyall.Service import Service
 from libnotifyall import CONFIG_DIR, CONFIG_FILE
-
+import libnotifyall.Logger, logging
 import twitter
 import ConfigParser
 import os, urllib2, time
@@ -45,9 +45,9 @@ class TwitterService(Service):
         api = twitter.Api(self.username, self.password)
         try:
             statuses = api.GetFriendsTimeline(since_id = self.last_id)
-            print "[" + time.strftime("%H:%M") + "] [Twitter] Update... [OK]"
+            logging.debug("[Twitter] Update... OK")
         except:
-            print "[" + time.strftime("%H:%M") + "] [Twitter] Update... [ERROR]"
+            logging.error("[Twitter] Update... ERROR")
             return 1
         quantity = len(statuses)
         i = 0

@@ -21,9 +21,10 @@
 from libnotifyall.Message import Message
 from libnotifyall.Service import Service
 from libnotifyall import CONFIG_DIR, CONFIG_FILE
+from libnotifyall import Logger
 import feedparser
 import ConfigParser
-import os, urllib2, time, sys
+import os, urllib2, time, sys, logging
 
 class GmailService(Service):
 
@@ -50,12 +51,12 @@ class GmailService(Service):
             for label in self.labels:
                 try:
                     feed = opener.open(self.atom_url + "/" + label[1])
-                    print "[" + time.strftime("%H:%M") + "] [Gmail] " + label[1] + " update... [OK]"
+                    logging.debug("[Gmail] " + label[1] + " update... OK")
                 except urllib2.HTTPError as detail:
                     if str(detail) == "HTTP Error 401: Unauthorized":
-                        print "[" + time.strftime("%H:%M") + "] [Gmail] " + label[1] + " update... [ERROR] (You must verify your username or password)"
+                        logging.error("[Gmail] " + label[1] + " update... ERROR (You must verify your username or password)")
                     else:
-                        print "[" + time.strftime("%H:%M") + "] [Gmail] " + label[1] + " update... [ERROR]"
+                        logging.error("[Gmail] " + label[1] + " update... ERROR")
                     return 1
 
                 a = feedparser.parse(feed)

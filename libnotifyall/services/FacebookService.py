@@ -21,9 +21,10 @@
 from libnotifyall.Message import Message
 from libnotifyall.Service import Service
 from libnotifyall import CONFIG_DIR, CONFIG_FILE
+from libnotifyall import Logger
 import feedparser
 import ConfigParser
-import os, urllib2, time, sys
+import os, urllib2, time, sys, logging
 
 class FacebookService(Service):
 
@@ -43,9 +44,9 @@ class FacebookService(Service):
 
         try:
             a = feedparser.parse(self.feed_url)
-            print "[" + time.strftime("%H:%M") + "] [Facebook] Update... [OK]"
+            logging.debug("[Facebook] Update... OK")
         except:
-            print "[" + time.strftime("%H:%M") + "] [Facebook] Update... [ERROR]"
+            logging.error("[Facebook] Update... ERROR")
             return 1
 
         for entry in self._reverse(a['entries']):
