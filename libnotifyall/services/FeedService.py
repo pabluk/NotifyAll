@@ -67,6 +67,4 @@ class FeedService(Service):
     
         self.first_run = False
 
-    def _remove_html_tags(self, data):
-        p = re.compile(r'<.*?>')
-        return p.sub('', data)
+
