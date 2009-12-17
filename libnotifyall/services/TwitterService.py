@@ -52,15 +52,21 @@ class TwitterService(Service):
         quantity = len(statuses)
         i = 0
         for status in self._reverse(statuses):
-            if not os.path.exists(CONFIG_DIR + "/twitter/" + str(status.user.id) + ".jpg"):
+            if not os.path.exists(CONFIG_DIR + "/twitter/" + \
+                                  str(status.user.id) + ".jpg"):
                 avatar = urllib2.urlopen(status.user.profile_image_url)
-                avatar_file = open(CONFIG_DIR + "/twitter/" + str(status.user.id) + '.jpg', 'wb')
+                avatar_file = open(CONFIG_DIR + "/twitter/" + \
+                                   str(status.user.id) + '.jpg', 'wb')
                 avatar_file.write(avatar.read())
                 avatar_file.close()
 
             self.last_id = status.id
             if not (self.ignore_init_msgs and self.first_run):
-                m = Message(status.id, 'Twitter', status.user.name + " (" + status.user.screen_name + ")", status.text, self.configdir + "/twitter/" + str(status.user.id) + ".jpg")
+                m = Message(status.id, 'Twitter',
+                            status.user.name + " (" + \
+                            status.user.screen_name + ")",
+                            status.text, self.configdir + "/twitter/" + \
+                            str(status.user.id) + ".jpg")
                 self.messages.append(m)
 
         self.first_run = False

@@ -56,7 +56,9 @@ class FeedService(Service):
                         break
     
                 if not message_exists:
-                    m = Message(entry.link, 'Feed', entry.title, entry.link, os.getcwd() + "/icons/" + "rss.png")
+                    m = Message(entry.link, 'Feed',
+                                entry.title, entry.link,
+                                os.getcwd() + "/icons/" + "rss.png")
     
                     if self.ignore_init_msgs and self.first_run:
                         m.viewed = True

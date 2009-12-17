@@ -22,7 +22,7 @@ import pynotify
 
 class Message:
 
-    def __init__(self, id = '', service = '', title = '', summary= '', icon = ''):
+    def __init__(self, id='', service='', title='', summary='', icon=''):
         self.id = id
         self.service = service
         self.title = title

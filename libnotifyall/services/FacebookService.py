@@ -38,7 +38,11 @@ class FacebookService(Service):
         self.viewer = config.get("facebook", "viewer")
         self.key = config.get("facebook", "key")
         self.interval = int(config.get("facebook", "interval"))
-        self.feed_url = "http://www.facebook.com/feeds/notifications.php?id="+self.fbid+"&viewer="+self.viewer+"&key="+self.key+"&format=rss20"
+        self.feed_url = "http://www.facebook.com/feeds/notifications.php?" + \
+                        "id=" + self.fbid + \
+                        "&viewer=" + self.viewer + \
+                        "&key=" + self.key + \
+                        "&format=rss20"
 
     def update(self):
 
@@ -57,7 +61,9 @@ class FacebookService(Service):
                     break
 
             if not message_exists:
-                m = Message(entry.link, 'Facebook', entry.title, entry.date, os.getcwd() + "/icons/" + "facebook.png")
+                m = Message(entry.link, 'Facebook',
+                            entry.title, entry.date,
+                            os.getcwd() + "/icons/" + "facebook.png")
 
                 if self.ignore_init_msgs and self.first_run:
                     m.viewed = True

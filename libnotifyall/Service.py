@@ -43,8 +43,10 @@ class Service(Thread):
         config = ConfigParser.ConfigParser()
 
         config.read(CONFIG_FILE)
-        self.ignore_init_msgs = config.getboolean("notifyall", "ignore_init_msgs")
-        self.disable_libnotify = config.getboolean("notifyall", "disable_libnotify")
+        self.ignore_init_msgs = config.getboolean("notifyall",
+                                                  "ignore_init_msgs")
+        self.disable_libnotify = config.getboolean("notifyall",
+                                                   "disable_libnotify")
 
     def update(self):
         pass
@@ -52,7 +54,8 @@ class Service(Thread):
     def show_messages(self):
         for msg in self.messages:
             if not msg.viewed:
-                logging.info("[" + msg.service + "] " + msg.title + ": " + msg.summary)
+                logging.info("[" + msg.service + "] " + msg.title + \
+                             ": " + msg.summary)
                 if not self.disable_libnotify:
                     msg.show()
                     msg.viewed = True

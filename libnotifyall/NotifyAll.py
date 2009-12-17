@@ -85,14 +85,17 @@ url2: http://planet.gnome.org/atom.xml
 """
         f.write(configdata)
         f.close()
-        print "This is the first time you run Notify All"
-        print "You must edit your user and password in " + CONFIG_FILE 
-        print "and re-run Notify All."
+        print "This is the first time you run Notify All" + \
+              "You must edit your user and password in " + CONFIG_FILE + \
+              "and re-run Notify All."
         sys.exit(1)
     
     
     def _register_services(self):
-        availables = dict(Twitter=TwitterService, Gmail=GmailService, Facebook=FacebookService, Feed=FeedService)
+        availables = dict(Twitter=TwitterService, 
+                          Gmail=GmailService,
+                          Facebook=FacebookService,
+                          Feed=FeedService)
         for name in iter(availables):
             self.services.append(availables[name]())
 
