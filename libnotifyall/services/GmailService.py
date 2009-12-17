@@ -54,37 +54,36 @@ class GmailService(Service):
                           self.username, self.password)
         opener = urllib2.build_opener(auth)
 
-        if len(self.labels) > 0:
-            for label in self.labels:
-                try:
-                    feed = opener.open(self.atom_url + "/" + label[1])
-                    logging.debug("[Gmail] " + label[1] + " update... OK")
-                except urllib2.HTTPError as detail:
-                    if str(detail) == "HTTP Error 401: Unauthorized":
-                        logging.error("[Gmail] " + label[1] + " update... " \
-                                      "ERROR (You must verify your " \
-                                      "username or password)")
-                    else:
-                        logging.error("[Gmail] " + label[1] +\
-                                      " update... ERROR")
-                    return 1
+        for label in self.labels:
+            try:
+                feed = opener.open(self.atom_url + "/" + label[1])
+                logging.debug("[Gmail] " + label[1] + " update... OK")
+            except urllib2.HTTPError as detail:
+                if str(detail) == "HTTP Error 401: Unauthorized":
+                    logging.error("[Gmail] " + label[1] + " update... " \
+                                  "ERROR (You must verify your " \
+                                  "username or password)")
+                else:
+                    logging.error("[Gmail] " + label[1] + \
+                                  " update... ERROR")
+                return 1
 
-                a = feedparser.parse(feed)
-                if len(a['entries']) > 0:
-                    for entry in a['entries']:
-                        message_exists = False
-                        for message in self.messages:
-                            if message.id == entry.link:
-                                message_exists = True
+            a = feedparser.parse(feed)
 
-                        if not message_exists:
-                            m = Message(entry.link, 'Gmail',
-                                        entry.author_detail.name, entry.title,
-                                        os.getcwd() + "/icons/" + "gmail.png")
-                            self.messages.append(m)
-                        else:
-                            if not self.mark_viewed:
-                                message.viewed = False
+            for entry in a['entries']:
+                message_exists = False
+                for message in self.messages:
+                    if message.id == entry.link:
+                        message_exists = True
+
+                if not message_exists:
+                    m = Message(entry.link, 'Gmail',
+                                entry.author_detail.name, entry.title,
+                                os.getcwd() + "/icons/" + "gmail.png")
+                    self.messages.append(m)
+                else:
+                    if not self.mark_viewed:
+                        message.viewed = False
 
         self.first_run = False
 
