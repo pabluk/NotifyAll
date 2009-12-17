@@ -22,6 +22,7 @@ from libnotifyall import CONFIG_DIR, CONFIG_FILE
 from libnotifyall.services.TwitterService import TwitterService
 from libnotifyall.services.GmailService import GmailService
 from libnotifyall.services.FacebookService import FacebookService
+from libnotifyall.services.FeedService import FeedService
 
 import os, time, sys
 
@@ -83,7 +84,7 @@ interval: 60
     
     
     def _register_services(self):
-        availables = dict(Twitter=TwitterService, Gmail=GmailService, Facebook=FacebookService)
+        availables = dict(Twitter=TwitterService, Gmail=GmailService, Facebook=FacebookService, Feed=FeedService)
         for name in iter(availables):
             self.services.append(availables[name]())
 
