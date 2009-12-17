@@ -18,13 +18,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import os
+import time
+import sys
+
 from libnotifyall import CONFIG_DIR, CONFIG_FILE
 from libnotifyall.services.TwitterService import TwitterService
 from libnotifyall.services.GmailService import GmailService
 from libnotifyall.services.FacebookService import FacebookService
 from libnotifyall.services.FeedService import FeedService
-
-import os, time, sys
 
 class NotifyAll:
 

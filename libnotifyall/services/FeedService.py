@@ -18,13 +18,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import os
+import sys
+import time
+import urllib2
+import logging
+import ConfigParser
+
+import feedparser
+
 from libnotifyall.Message import Message
 from libnotifyall.Service import Service
 from libnotifyall import CONFIG_DIR, CONFIG_FILE
 from libnotifyall import Logger
-import feedparser
-import ConfigParser
-import os, urllib2, time, sys, logging
 
 class FeedService(Service):
 

@@ -18,13 +18,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import os
+import time
+import urllib2
+import ConfigParser
+import logging
+
+import twitter
+
+from libnotifyall import CONFIG_DIR, CONFIG_FILE
 from libnotifyall.Message import Message
 from libnotifyall.Service import Service
-from libnotifyall import CONFIG_DIR, CONFIG_FILE
-import libnotifyall.Logger, logging
-import twitter
-import ConfigParser
-import os, urllib2, time
+import libnotifyall.Logger
 
 class TwitterService(Service):
 

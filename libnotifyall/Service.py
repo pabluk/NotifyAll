@@ -18,12 +18,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from libnotifyall import CONFIG_DIR, CONFIG_FILE
-from libnotifyall import Logger
-from threading import Thread
-import ConfigParser
 import time
 import logging
+import ConfigParser
+from threading import Thread
+
+from libnotifyall import CONFIG_DIR, CONFIG_FILE
+from libnotifyall import Logger
 
 class Service(Thread):
 
