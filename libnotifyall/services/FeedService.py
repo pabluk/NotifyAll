@@ -78,6 +78,7 @@ class FeedService(Service):
     
                     self.messages.append(m)
 
+        logging.debug("[Feed] messages in queue: " + str(len(self.messages)))
         self.first_run = False
 
 

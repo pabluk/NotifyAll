@@ -84,5 +84,5 @@ class TwitterService(Service):
                             status.text, self.configdir + "/twitter/" + \
                             str(status.user.id) + ".jpg")
                 self.messages.append(m)
-
+        logging.debug("[Twitter] messages in queue: " + str(len(self.messages)))
         self.first_run = False

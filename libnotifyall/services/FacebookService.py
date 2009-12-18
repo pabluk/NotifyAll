@@ -81,5 +81,6 @@ class FacebookService(Service):
                     m.viewed = True
                 self.messages.append(m)
 
+        logging.debug("[Facebook] messages in queue: " + str(len(self.messages)))
         self.first_run = False
 

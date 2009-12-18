@@ -60,11 +60,13 @@ class Service(Thread):
         """Show unread messages."""
         for msg in self.messages:
             if not msg.viewed:
+                if not self.disable_libnotify and os.environ.has_key('DISPLAY'):
+                    if msg.show():
+                        msg.viewed = True
+                    else:
+                        break
                 logging.info("[" + msg.service + "] " + msg.title + \
                              ": " + msg.summary)
-                if not self.disable_libnotify and os.environ.has_key('DISPLAY'):
-                    msg.show()
-                    msg.viewed = True
 
     def _reverse(self, data):
         """Get the same array in inverse order."""

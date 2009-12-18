@@ -91,5 +91,6 @@ class GmailService(Service):
                     if not self.mark_viewed:
                         message.viewed = False
 
+        logging.debug("[Gmail] messages in queue: " + str(len(self.messages)))
         self.first_run = False
 
