@@ -18,6 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import os
 import time
 import logging
 import ConfigParser
@@ -61,7 +62,7 @@ class Service(Thread):
             if not msg.viewed:
                 logging.info("[" + msg.service + "] " + msg.title + \
                              ": " + msg.summary)
-                if not self.disable_libnotify:
+                if not self.disable_libnotify and os.environ.has_key('DISPLAY'):
                     msg.show()
                     msg.viewed = True
 

@@ -18,7 +18,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import pynotify
+try:
+    import pynotify
+except:
+    loggin.warning("There isn't support for libnotify.\n"
+                   "Messages will be displayed on the terminal")
 
 class Message:
     """Define message's structure."""
