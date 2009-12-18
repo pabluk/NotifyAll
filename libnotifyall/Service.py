@@ -68,16 +68,25 @@ class Service(Thread):
                 logging.info("[" + msg.service + "] " + msg.title + \
                              ": " + msg.summary)
 
+    def _unseen_messages(self):
+        """Returns the number of unseen messages."""
+        i = 0
+        for message in self.messages:
+            if not message.viewed:
+                i += 1
+        return i
+
     def _reverse(self, data):
         """Get the same array in inverse order."""
         for index in range(len(data)-1, -1, -1):
             yield data[index]
 
     def run(self):
-        """Start loop to update service and show his own messages."""
+        """Start the loop to update the service and display their own messages."""
         while True:
             self.update()
             self.show_messages()
+            logging.debug("[" + self.SRV_NAME + "] Unseen message(s): " + str(self._unseen_messages()) + " of " + str(len(self.messages)))
             time.sleep(self.interval)
 
 
