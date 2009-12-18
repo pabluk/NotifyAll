@@ -32,11 +32,13 @@ from libnotifyall import Service
 from libnotifyall import Logger
 
 class TwitterService(Service):
+    """Class to implements notifications through Twitter API."""
 
     def __init__(self):
         Service.__init__(self, __name__)
 
     def load_config(self):
+        """Load config settings from twitter section in CONFIG_FILE."""
         Service.load_config(self)
 
         config = ConfigParser.ConfigParser()
@@ -45,10 +47,13 @@ class TwitterService(Service):
         self.username = config.get("twitter", "username")
         self.password = config.get("twitter", "password")
         self.interval = int(config.get("twitter", "interval"))
+
+        # if doesn't exist make a directory to store cached profile images
         if not os.path.exists(CONFIG_DIR + "/twitter"):
             os.mkdir(CONFIG_DIR + "/twitter")
 
     def update(self):
+        """Get and save entries from Twitter API."""
 
         self.messages = []
         api = twitter.Api(self.username, self.password)
@@ -60,6 +65,7 @@ class TwitterService(Service):
             logging.error("[Twitter] Update... ERROR")
             return 1
 
+        # Sort entries by date ascending order with _reverse()
         for status in self._reverse(statuses):
             self.last_id = status.id
             if not (self.ignore_init_msgs and self.first_run):

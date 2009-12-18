@@ -29,15 +29,17 @@ from libnotifyall.services import FacebookService
 from libnotifyall.services import FeedService
 
 class NotifyAll:
+    """A class that contain all services."""
 
     def __init__(self):
         self.services = []
         if not os.path.exists(CONFIG_DIR):
-            self.create_initial_config()
+            self._create_initial_config()
         self._register_services()
         self._load_config()
 
-    def create_initial_config(self):
+    def _create_initial_config(self):
+        """Create the configuration dir and write a sample config."""
         os.mkdir(CONFIG_DIR)
         f = open(CONFIG_FILE, 'w')
         configdata = """
@@ -94,6 +96,7 @@ url2: http://planet.gnome.org/atom.xml
     
     
     def _register_services(self):
+        """Add services availables to the array of services."""
         availables = dict(Twitter=TwitterService, 
                           Gmail=GmailService,
                           Facebook=FacebookService,
@@ -102,10 +105,12 @@ url2: http://planet.gnome.org/atom.xml
             self.services.append(availables[name]())
 
     def _load_config(self):
+        """Load required options from each specific service."""
         for service in self.services:
             service.load_config()
 
     def start(self):
+        """Start thread for each services registered."""
         for service in self.services:
             service.start()
 

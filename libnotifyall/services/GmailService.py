@@ -33,11 +33,13 @@ from libnotifyall import Service
 from libnotifyall import Logger
 
 class GmailService(Service):
+    """Class to implements notifications from GMail Atom Feed."""
 
     def __init__(self):
         Service.__init__(self, __name__)
 
     def load_config(self):
+        """Load config settings from gmail section in CONFIG_FILE."""
         Service.load_config(self)
 
         config = ConfigParser.ConfigParser()
@@ -51,6 +53,7 @@ class GmailService(Service):
         self.atom_url = "https://mail.google.com/mail/feed/atom"
 
     def update(self):
+        """Get and save entries from GMail Atom feed."""
 
         auth = urllib2.HTTPBasicAuthHandler()
         auth.add_password("New mail feed", self.atom_url, 

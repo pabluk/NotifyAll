@@ -33,11 +33,13 @@ from libnotifyall import Service
 from libnotifyall import Logger
 
 class FacebookService(Service):
+    """Class to implements notifications from Facebook notification feed."""
 
     def __init__(self):
         Service.__init__(self, __name__)
         
     def load_config(self):
+        """Load config settings from facebook section in CONFIG_FILE."""
         Service.load_config(self)
 
         config = ConfigParser.ConfigParser()
@@ -54,7 +56,7 @@ class FacebookService(Service):
                         "&format=rss20"
 
     def update(self):
-
+        """Get and save entries from Facebook notification feed."""
         try:
             a = feedparser.parse(self.feed_url)
             logging.debug("[Facebook] Update... OK")
@@ -62,6 +64,7 @@ class FacebookService(Service):
             logging.error("[Facebook] Update... ERROR")
             return 1
 
+        # Sort entries by date ascending order with _reverse()
         for entry in self._reverse(a['entries']):
             message_exists = False
 

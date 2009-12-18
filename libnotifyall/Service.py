@@ -27,6 +27,7 @@ from libnotifyall import CONFIG_DIR, CONFIG_FILE
 from libnotifyall import Logger
 
 class Service(Thread):
+    """Threading class base for services."""
 
     def __init__(self, srv_name):
         Thread.__init__(self, name=srv_name)
@@ -41,6 +42,7 @@ class Service(Thread):
         self.load_config()
 
     def load_config(self):
+        """Load config settings for NotifyAll."""
         config = ConfigParser.ConfigParser()
 
         config.read(CONFIG_FILE)
@@ -50,9 +52,11 @@ class Service(Thread):
                                                    "disable_libnotify")
 
     def update(self):
+        """This method must be abstract."""
         pass
 
     def show_messages(self):
+        """Show unread messages."""
         for msg in self.messages:
             if not msg.viewed:
                 logging.info("[" + msg.service + "] " + msg.title + \
@@ -62,10 +66,12 @@ class Service(Thread):
                     msg.viewed = True
 
     def _reverse(self, data):
+        """Get the same array in inverse order."""
         for index in range(len(data)-1, -1, -1):
             yield data[index]
 
     def run(self):
+        """Start loop to update service and show his own messages."""
         while True:
             self.update()
             self.show_messages()

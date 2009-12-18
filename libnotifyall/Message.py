@@ -21,6 +21,7 @@
 import pynotify
 
 class Message:
+    """Define message's structure."""
 
     def __init__(self, id='', service='', title='', summary='', icon=''):
         self.id = id
@@ -31,6 +32,7 @@ class Message:
         self.viewed = False
 
     def show(self):
+        """Send through pynotify messages to libnotify."""
         pynotify.init('Notify All')
         m = pynotify.Notification(self.title, self.summary, self.icon)
         m.show()
