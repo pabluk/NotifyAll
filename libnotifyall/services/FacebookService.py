@@ -32,11 +32,13 @@ from libnotifyall import Message
 from libnotifyall import Service
 from libnotifyall import Logger
 
+SRV_NAME = 'facebook'
+
 class FacebookService(Service):
     """Class to implements notifications from Facebook notification feed."""
 
     def __init__(self):
-        Service.__init__(self, __name__)
+        Service.__init__(self, SRV_NAME)
         
     def load_config(self):
         """Load config settings from facebook section in CONFIG_FILE."""
@@ -45,10 +47,10 @@ class FacebookService(Service):
         config = ConfigParser.ConfigParser()
 
         config.read(CONFIG_FILE)
-        self.fbid = config.get("facebook", "id")
-        self.viewer = config.get("facebook", "viewer")
-        self.key = config.get("facebook", "key")
-        self.interval = int(config.get("facebook", "interval"))
+        self.fbid = config.get(SRV_NAME, "id")
+        self.viewer = config.get(SRV_NAME, "viewer")
+        self.key = config.get(SRV_NAME, "key")
+        self.interval = int(config.get(SRV_NAME, "interval"))
         self.feed_url = "http://www.facebook.com/feeds/notifications.php?" + \
                         "id=" + self.fbid + \
                         "&viewer=" + self.viewer + \
@@ -59,9 +61,9 @@ class FacebookService(Service):
         """Get and save entries from Facebook notification feed."""
         try:
             a = feedparser.parse(self.feed_url)
-            logging.debug("[Facebook] Update... OK")
+            logging.debug("[" + SRV_NAME + "] Update... OK")
         except:
-            logging.error("[Facebook] Update... ERROR")
+            logging.error("[" + SRV_NAME + "] Update... ERROR")
             return 1
 
         # Sort entries by date ascending order with _reverse()
@@ -74,13 +76,12 @@ class FacebookService(Service):
                     break
 
             if not message_exists:
-                m = Message(entry.link, 'Facebook',
+                m = Message(entry.link, SRV_NAME,
                             entry.title, entry.date,
                             os.getcwd() + "/icons/" + "facebook.png")
                 if self.ignore_init_msgs and self.first_run:
                     m.viewed = True
                 self.messages.append(m)
 
-        logging.debug("[Facebook] messages in queue: " + str(len(self.messages)))
         self.first_run = False
 

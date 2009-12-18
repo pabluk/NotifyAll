@@ -32,11 +32,13 @@ from libnotifyall import Message
 from libnotifyall import Service
 from libnotifyall import Logger
 
+SRV_NAME = 'gmail'
+
 class GmailService(Service):
     """Class to implements notifications from GMail Atom Feed."""
 
     def __init__(self):
-        Service.__init__(self, __name__)
+        Service.__init__(self, SRV_NAME)
 
     def load_config(self):
         """Load config settings from gmail section in CONFIG_FILE."""
@@ -45,10 +47,10 @@ class GmailService(Service):
         config = ConfigParser.ConfigParser()
 
         config.read(CONFIG_FILE)
-        self.username = config.get("gmail", "username")
-        self.password = config.get("gmail", "password")
-        self.mark_viewed = config.getboolean("gmail", "mark_viewed")
-        self.interval = int(config.get("gmail", "interval"))
+        self.username = config.get(SRV_NAME, "username")
+        self.password = config.get(SRV_NAME, "password")
+        self.mark_viewed = config.getboolean(SRV_NAME, "mark_viewed")
+        self.interval = int(config.get(SRV_NAME, "interval"))
         self.labels = config.items("labels")
         self.atom_url = "https://mail.google.com/mail/feed/atom"
 
@@ -63,14 +65,14 @@ class GmailService(Service):
         for label in self.labels:
             try:
                 feed = opener.open(self.atom_url + "/" + label[1])
-                logging.debug("[Gmail] " + label[1] + " update... OK")
+                logging.debug("[" + SRV_NAME + "] " + label[1] + " update... OK")
             except urllib2.HTTPError as detail:
                 if str(detail) == "HTTP Error 401: Unauthorized":
-                    logging.error("[Gmail] " + label[1] + " update... " \
+                    logging.error("[" + SRV_NAME + "] " + label[1] + " update... " \
                                   "ERROR (You must verify your " \
                                   "username or password)")
                 else:
-                    logging.error("[Gmail] " + label[1] + \
+                    logging.error("[" + SRV_NAME + "] " + label[1] + \
                                   " update... ERROR")
                 return 1
 
@@ -83,7 +85,7 @@ class GmailService(Service):
                         message_exists = True
 
                 if not message_exists:
-                    m = Message(entry.link, 'Gmail',
+                    m = Message(entry.link, SRV_NAME,
                                 entry.author_detail.name, entry.title,
                                 os.getcwd() + "/icons/" + "gmail.png")
                     self.messages.append(m)
@@ -91,6 +93,5 @@ class GmailService(Service):
                     if not self.mark_viewed:
                         message.viewed = False
 
-        logging.debug("[Gmail] messages in queue: " + str(len(self.messages)))
         self.first_run = False
 

@@ -31,11 +31,13 @@ from libnotifyall import Message
 from libnotifyall import Service
 from libnotifyall import Logger
 
+SRV_NAME = 'twitter'
+
 class TwitterService(Service):
     """Class to implements notifications through Twitter API."""
 
     def __init__(self):
-        Service.__init__(self, __name__)
+        Service.__init__(self,SRV_NAME)
 
     def load_config(self):
         """Load config settings from twitter section in CONFIG_FILE."""
@@ -44,13 +46,13 @@ class TwitterService(Service):
         config = ConfigParser.ConfigParser()
 
         config.read(CONFIG_FILE)
-        self.username = config.get("twitter", "username")
-        self.password = config.get("twitter", "password")
-        self.interval = int(config.get("twitter", "interval"))
+        self.username = config.get(SRV_NAME, "username")
+        self.password = config.get(SRV_NAME, "password")
+        self.interval = int(config.get(SRV_NAME, "interval"))
 
         # if doesn't exist make a directory to store cached profile images
-        if not os.path.exists(CONFIG_DIR + "/twitter"):
-            os.mkdir(CONFIG_DIR + "/twitter")
+        if not os.path.exists(CONFIG_DIR + "/" + SRV_NAME):
+            os.mkdir(CONFIG_DIR + "/" + SRV_NAME)
 
     def update(self):
         """Get and save entries from Twitter API."""
@@ -60,9 +62,9 @@ class TwitterService(Service):
 
         try:
             statuses = api.GetFriendsTimeline(since_id = self.last_id)
-            logging.debug("[Twitter] Update... OK")
+            logging.debug("[" + SRV_NAME + "] Update... OK")
         except:
-            logging.error("[Twitter] Update... ERROR")
+            logging.error("[" + SRV_NAME + "] Update... ERROR")
             return 1
 
         # Sort entries by date ascending order with _reverse()
@@ -70,19 +72,19 @@ class TwitterService(Service):
             self.last_id = status.id
             if not (self.ignore_init_msgs and self.first_run):
 
-                if not os.path.exists(CONFIG_DIR + "/twitter/" + \
+                if not os.path.exists(CONFIG_DIR + "/" + SRV_NAME + "/" + \
                                       str(status.user.id) + ".jpg"):
                     avatar = urllib2.urlopen(status.user.profile_image_url)
-                    avatar_file = open(CONFIG_DIR + "/twitter/" + \
+                    avatar_file = open(CONFIG_DIR + "/" + SRV_NAME + "/" + \
                                        str(status.user.id) + '.jpg', 'wb')
                     avatar_file.write(avatar.read())
                     avatar_file.close()
 
-                m = Message(status.id, 'Twitter',
+                m = Message(status.id, SRV_NAME,
                             status.user.name + " (" + \
                             status.user.screen_name + ")",
-                            status.text, self.configdir + "/twitter/" + \
+                            status.text, self.configdir + "/" + SRV_NAME + "/" + \
                             str(status.user.id) + ".jpg")
                 self.messages.append(m)
-        logging.debug("[Twitter] messages in queue: " + str(len(self.messages)))
+
         self.first_run = False
