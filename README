@@ -1,20 +1,23 @@
 
-Notify All v0.2.1
+Notify All
 
 About
 =====
 
-Notifications for GNOME Desktop using libnotify to show updates from Twitter, GMail, Facebook, etc
+Notifications for GNOME Desktop using libnotify to show updates from Twitter, GMail, Facebook or any RSS and Atom feed
 
-* Notifications with libnotify
-* Parse GMail Atom feed
-* Show status updates from Twitter
+* Display notifications with libnotify
+* Show new messages from GMail usign GMail Atom feed
+* Show status updates from Twitter using Twitter API
+* Show notifications from Facebook notification feed
+* Show news from RSS and Atom feeds
+* Written in Python ;)
 
 
 Author
 ======
 
-Juan Pablo Seminario
+Pablo Seminario
 <pabluk@gmail.com>
 
 
