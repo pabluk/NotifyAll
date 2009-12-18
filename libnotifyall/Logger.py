@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Notify All - Copyright (c) 2009 Juan Pablo Seminario
+# Notify All - Copyright (c) 2009 Pablo Seminario
 # This software is distributed under the terms of the GNU General
 # Public License
 #
