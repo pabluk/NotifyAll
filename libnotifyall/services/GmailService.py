@@ -27,9 +27,9 @@ import ConfigParser
 
 import feedparser
 
-from libnotifyall.Message import Message
-from libnotifyall.Service import Service
 from libnotifyall import CONFIG_DIR, CONFIG_FILE
+from libnotifyall import Message
+from libnotifyall import Service
 from libnotifyall import Logger
 
 class GmailService(Service):

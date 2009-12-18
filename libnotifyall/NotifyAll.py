@@ -23,10 +23,10 @@ import time
 import sys
 
 from libnotifyall import CONFIG_DIR, CONFIG_FILE
-from libnotifyall.services.TwitterService import TwitterService
-from libnotifyall.services.GmailService import GmailService
-from libnotifyall.services.FacebookService import FacebookService
-from libnotifyall.services.FeedService import FeedService
+from libnotifyall.services import TwitterService
+from libnotifyall.services import GmailService
+from libnotifyall.services import FacebookService
+from libnotifyall.services import FeedService
 
 class NotifyAll:
 

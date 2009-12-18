@@ -1,2 +1,4 @@
-__all__ = ['TwitterService', 'GmailService', 'Facebook']
-
+from libnotifyall.services.TwitterService import TwitterService
+from libnotifyall.services.GmailService import GmailService
+from libnotifyall.services.FacebookService import FacebookService
+from libnotifyall.services.FeedService import FeedService

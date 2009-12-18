@@ -21,7 +21,7 @@
 import sys
 import signal
 
-from libnotifyall.NotifyAll import NotifyAll
+from libnotifyall import NotifyAll
 
 if __name__ == "__main__":
 

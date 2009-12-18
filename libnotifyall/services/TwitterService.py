@@ -27,9 +27,9 @@ import logging
 import twitter
 
 from libnotifyall import CONFIG_DIR, CONFIG_FILE
-from libnotifyall.Message import Message
-from libnotifyall.Service import Service
-import libnotifyall.Logger
+from libnotifyall import Message
+from libnotifyall import Service
+from libnotifyall import Logger
 
 class TwitterService(Service):
 
