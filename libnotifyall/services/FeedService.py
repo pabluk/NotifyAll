@@ -32,13 +32,13 @@ from libnotifyall import Message
 from libnotifyall import Service
 from libnotifyall import Logger
 
-SRV_NAME = 'feed'
-
 class FeedService(Service):
     """Class to implements notifications from any RSS or Atom feed."""
 
+    SRV_NAME = 'feed'
+
     def __init__(self):
-        Service.__init__(self, SRV_NAME)
+        Service.__init__(self, self.SRV_NAME)
 
     def load_config(self):
         """Load config settings from feed section in CONFIG_FILE."""
@@ -47,7 +47,7 @@ class FeedService(Service):
         config = ConfigParser.ConfigParser()
 
         config.read(CONFIG_FILE)
-        self.interval = int(config.get(SRV_NAME, "interval"))
+        self.interval = int(config.get(self.SRV_NAME, "interval"))
         self.feeds = config.items("feeds")
 
     def update(self):
@@ -57,9 +57,9 @@ class FeedService(Service):
 
             try:
                 a = feedparser.parse(feed[1])
-                logging.debug("[" + SRV_NAME + "] Update " + feed[1] +"... OK")
+                logging.debug("[" + self.SRV_NAME + "] Update " + feed[1] +"... OK")
             except:
-                logging.error("[" + SRV_NAME + "] Update... ERROR")
+                logging.error("[" + self.SRV_NAME + "] Update... ERROR")
                 return 1
     
             # Sort entries by date ascending order with _reverse()
@@ -71,7 +71,7 @@ class FeedService(Service):
                         break
     
                 if not message_exists:
-                    m = Message(entry.link, SRV_NAME,
+                    m = Message(entry.link, self.SRV_NAME,
                                 entry.title, entry.link,
                                 os.getcwd() + "/icons/" + "rss.png")
     

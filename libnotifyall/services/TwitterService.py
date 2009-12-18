@@ -31,13 +31,13 @@ from libnotifyall import Message
 from libnotifyall import Service
 from libnotifyall import Logger
 
-SRV_NAME = 'twitter'
-
 class TwitterService(Service):
     """Class to implements notifications through Twitter API."""
 
+    SRV_NAME = 'twitter'
+
     def __init__(self):
-        Service.__init__(self,SRV_NAME)
+        Service.__init__(self,self.SRV_NAME)
 
     def load_config(self):
         """Load config settings from twitter section in CONFIG_FILE."""
@@ -46,13 +46,13 @@ class TwitterService(Service):
         config = ConfigParser.ConfigParser()
 
         config.read(CONFIG_FILE)
-        self.username = config.get(SRV_NAME, "username")
-        self.password = config.get(SRV_NAME, "password")
-        self.interval = int(config.get(SRV_NAME, "interval"))
+        self.username = config.get(self.SRV_NAME, "username")
+        self.password = config.get(self.SRV_NAME, "password")
+        self.interval = int(config.get(self.SRV_NAME, "interval"))
 
         # if doesn't exist make a directory to store cached profile images
-        if not os.path.exists(CONFIG_DIR + "/" + SRV_NAME):
-            os.mkdir(CONFIG_DIR + "/" + SRV_NAME)
+        if not os.path.exists(CONFIG_DIR + "/" + self.SRV_NAME):
+            os.mkdir(CONFIG_DIR + "/" + self.SRV_NAME)
 
     def update(self):
         """Get and save entries from Twitter API."""
@@ -62,9 +62,9 @@ class TwitterService(Service):
 
         try:
             statuses = api.GetFriendsTimeline(since_id = self.last_id)
-            logging.debug("[" + SRV_NAME + "] Update... OK")
+            logging.debug("[" + self.SRV_NAME + "] Update... OK")
         except:
-            logging.error("[" + SRV_NAME + "] Update... ERROR")
+            logging.error("[" + self.SRV_NAME + "] Update... ERROR")
             return 1
 
         # Sort entries by date ascending order with _reverse()
@@ -72,18 +72,18 @@ class TwitterService(Service):
             self.last_id = status.id
             if not (self.ignore_init_msgs and self.first_run):
 
-                if not os.path.exists(CONFIG_DIR + "/" + SRV_NAME + "/" + \
+                if not os.path.exists(CONFIG_DIR + "/" + self.SRV_NAME + "/" + \
                                       str(status.user.id) + ".jpg"):
                     avatar = urllib2.urlopen(status.user.profile_image_url)
-                    avatar_file = open(CONFIG_DIR + "/" + SRV_NAME + "/" + \
+                    avatar_file = open(CONFIG_DIR + "/" + self.SRV_NAME + "/" + \
                                        str(status.user.id) + '.jpg', 'wb')
                     avatar_file.write(avatar.read())
                     avatar_file.close()
 
-                m = Message(status.id, SRV_NAME,
+                m = Message(status.id, self.SRV_NAME,
                             status.user.name + " (" + \
                             status.user.screen_name + ")",
-                            status.text, self.configdir + "/" + SRV_NAME + "/" + \
+                            status.text, self.configdir + "/" + self.SRV_NAME + "/" + \
                             str(status.user.id) + ".jpg")
                 self.messages.append(m)
 
