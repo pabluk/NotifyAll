@@ -34,6 +34,9 @@ from libnotifyall import Logger
 
 class FeedService(Service):
 
+    def __init__(self):
+        Service.__init__(self, __name__)
+
     def load_config(self):
         Service.load_config(self)
 
@@ -70,7 +73,7 @@ class FeedService(Service):
                         m.viewed = True
     
                     self.messages.append(m)
-    
+
         self.first_run = False
 
 

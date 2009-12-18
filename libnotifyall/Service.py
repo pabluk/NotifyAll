@@ -28,8 +28,8 @@ from libnotifyall import Logger
 
 class Service(Thread):
 
-    def __init__(self):
-        Thread.__init__(self)
+    def __init__(self, srv_name):
+        Thread.__init__(self, name=srv_name)
 
         self.configfile = CONFIG_FILE
         self.configdir = CONFIG_DIR

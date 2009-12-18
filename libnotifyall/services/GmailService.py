@@ -34,6 +34,9 @@ from libnotifyall import Logger
 
 class GmailService(Service):
 
+    def __init__(self):
+        Service.__init__(self, __name__)
+
     def load_config(self):
         Service.load_config(self)
 

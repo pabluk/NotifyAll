@@ -33,6 +33,9 @@ import libnotifyall.Logger
 
 class TwitterService(Service):
 
+    def __init__(self):
+        Service.__init__(self, __name__)
+
     def load_config(self):
         Service.load_config(self)
 
