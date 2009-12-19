@@ -21,11 +21,11 @@
 try:
     import pynotify
 except:
-    loggin.warning("There isn't support for libnotify.\n"
+    loggin.warning("There is no support for libnotify.\n"
                    "Messages will be displayed on the terminal")
 
 class Message:
-    """Define message's structure."""
+    """Defines the message structure."""
 
     def __init__(self, id='', service='', title='', summary='', icon=''):
         self.id = id
@@ -36,7 +36,7 @@ class Message:
         self.viewed = False
 
     def show(self):
-        """Send through pynotify messages to libnotify."""
+        """Send messages throug pynotify."""
         pynotify.init('Notify All')
         try:
             m = pynotify.Notification(self.title, self.summary, self.icon)

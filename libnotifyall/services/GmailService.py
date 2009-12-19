@@ -33,7 +33,7 @@ from libnotifyall import Service
 from libnotifyall import Logger
 
 class GmailService(Service):
-    """Class to implements notifications from GMail Atom Feed."""
+    """Class to implement notifications from GMail Atom Feed."""
 
     SRV_NAME = 'gmail'
     ATOM_URL = 'https://mail.google.com/mail/feed/atom'
@@ -42,7 +42,7 @@ class GmailService(Service):
         Service.__init__(self, self.SRV_NAME)
 
     def load_config(self):
-        """Load config settings from gmail section in CONFIG_FILE."""
+        """Load configuration settings from the gmail section in CONFIG_FILE."""
         Service.load_config(self)
 
         config = ConfigParser.ConfigParser()
@@ -55,7 +55,7 @@ class GmailService(Service):
         self.labels = config.items("labels")
 
     def update(self):
-        """Get and save entries from GMail Atom feed."""
+        """Gets and stores the entries from GMail Atom feed."""
 
         auth = urllib2.HTTPBasicAuthHandler()
         auth.add_password("New mail feed", self.ATOM_URL, 
@@ -69,7 +69,7 @@ class GmailService(Service):
             except urllib2.HTTPError as detail:
                 if str(detail) == "HTTP Error 401: Unauthorized":
                     logging.error("[" + self.SRV_NAME + "] " + label[1] + " update... " \
-                                  "ERROR (You must verify your " \
+                                  "ERROR (You must check your " \
                                   "username or password)")
                 else:
                     logging.error("[" + self.SRV_NAME + "] " + label[1] + \

@@ -33,7 +33,7 @@ from libnotifyall import Service
 from libnotifyall import Logger
 
 class FeedService(Service):
-    """Class to implements notifications from any RSS or Atom feed."""
+    """Class to implement notifications from any RSS or Atom feed."""
 
     SRV_NAME = 'feed'
 
@@ -41,7 +41,7 @@ class FeedService(Service):
         Service.__init__(self, self.SRV_NAME)
 
     def load_config(self):
-        """Load config settings from feed section in CONFIG_FILE."""
+        """Load configuration settings from the feed section in CONFIG_FILE."""
         Service.load_config(self)
 
         config = ConfigParser.ConfigParser()
@@ -51,7 +51,7 @@ class FeedService(Service):
         self.feeds = config.items("feeds")
 
     def update(self):
-        """Get and save entries from feed."""
+        """Gets and stores the entries from feed."""
 
         for feed in self.feeds:
 

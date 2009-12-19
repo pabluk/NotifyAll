@@ -43,7 +43,7 @@ class Service(Thread):
         self.load_config()
 
     def load_config(self):
-        """Load config settings for NotifyAll."""
+        """Load configuration settings for NotifyAll."""
         config = ConfigParser.ConfigParser()
 
         config.read(CONFIG_FILE)
@@ -57,7 +57,7 @@ class Service(Thread):
         pass
 
     def show_messages(self):
-        """Show unread messages."""
+        """Shows the messages unseen."""
         for msg in self.messages:
             if not msg.viewed:
                 if not self.disable_libnotify and os.environ.has_key('DISPLAY'):
@@ -77,7 +77,7 @@ class Service(Thread):
         return i
 
     def _reverse(self, data):
-        """Get the same array in inverse order."""
+        """Returns the same array in reverse order."""
         for index in range(len(data)-1, -1, -1):
             yield data[index]
 

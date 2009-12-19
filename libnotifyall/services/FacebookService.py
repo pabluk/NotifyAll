@@ -33,7 +33,7 @@ from libnotifyall import Service
 from libnotifyall import Logger
 
 class FacebookService(Service):
-    """Class to implements notifications from Facebook notification feed."""
+    """Class to implement notifications from Facebook notification feed."""
 
     SRV_NAME = 'facebook'
     FB_URL = 'http://www.facebook.com/feeds/notifications.php?'
@@ -42,7 +42,7 @@ class FacebookService(Service):
         Service.__init__(self, self.SRV_NAME)
         
     def load_config(self):
-        """Load config settings from facebook section in CONFIG_FILE."""
+        """Load configuration settings from the facebook section in CONFIG_FILE."""
         Service.load_config(self)
 
         config = ConfigParser.ConfigParser()
@@ -59,7 +59,7 @@ class FacebookService(Service):
                         "&format=rss20"
 
     def update(self):
-        """Get and save entries from Facebook notification feed."""
+        """Gets and stores the entries from Facebook notification feed."""
         try:
             a = feedparser.parse(self.feed_url)
             logging.debug("[" + self.SRV_NAME + "] Update... OK")

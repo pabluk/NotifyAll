@@ -32,7 +32,7 @@ from libnotifyall import Service
 from libnotifyall import Logger
 
 class TwitterService(Service):
-    """Class to implements notifications through Twitter API."""
+    """Class to implement notifications through Twitter API."""
 
     SRV_NAME = 'twitter'
 
@@ -40,7 +40,7 @@ class TwitterService(Service):
         Service.__init__(self,self.SRV_NAME)
 
     def load_config(self):
-        """Load config settings from twitter section in CONFIG_FILE."""
+        """Load configuration settings from the twitter section in CONFIG_FILE."""
         Service.load_config(self)
 
         config = ConfigParser.ConfigParser()
@@ -55,9 +55,8 @@ class TwitterService(Service):
             os.mkdir(CONFIG_DIR + "/" + self.SRV_NAME)
 
     def update(self):
-        """Get and save entries from Twitter API."""
+        """Gets and stores the entries from Twitter API."""
 
-        self.messages = []
         api = twitter.Api(self.username, self.password)
 
         try:
@@ -72,6 +71,7 @@ class TwitterService(Service):
             self.last_id = status.id
             if not (self.ignore_init_msgs and self.first_run):
 
+                # this block must be enhanced to detect the type of the profile image
                 if not os.path.exists(CONFIG_DIR + "/" + self.SRV_NAME + "/" + \
                                       str(status.user.id) + ".jpg"):
                     avatar = urllib2.urlopen(status.user.profile_image_url)
