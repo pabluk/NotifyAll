@@ -56,11 +56,11 @@ class FeedService(Service):
         for feed in self.feeds:
             try:
                 a = feedparser.parse(feed[1])
-                self.logger.debug("Updated " + feed[1])
-                all_entries.extend(a['entries'])
             except:
                 self.logger.error("Update error in " + feed[1])
-                return 0
+            else:
+                self.logger.debug("Updated " + feed[1])
+                all_entries.extend(a['entries'])
         return all_entries
     
     def _normalize_entries(self, entries):

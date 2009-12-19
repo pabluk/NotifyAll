@@ -56,16 +56,17 @@ class TwitterService(Service):
 
     def _get_updates(self):
         """Retrieves updates from Twitter API and return an array of entries."""
-
+        statuses = []
         api = twitter.Api(self.username, self.password)
 
         try:
-            statuses = api.GetFriendsTimeline(since_id = self.last_id)
-            self.logger.debug("Updated")
-            return statuses
+            statuses = api.GetFriendsTimeline()
         except:
             self.logger.error("Update error")
-            return 0
+        else:
+            self.logger.debug("Updated")
+        finally:
+            return statuses
 
     def _normalize_entries(self, entries):
         """Normalizes and sorts an array of entries and returns an array of messages."""
@@ -73,12 +74,11 @@ class TwitterService(Service):
 
         for entry in self._reverse(entries):
 
-            # this block must be enhanced to detect the type of the profile image
             if not os.path.exists(CONFIG_DIR + "/" + self.SRV_NAME + "/" + \
-                                  str(entry.user.id) + ".jpg"):
+                                  str(entry.user.id)):
                 avatar = urllib2.urlopen(entry.user.profile_image_url)
                 avatar_file = open(CONFIG_DIR + "/" + self.SRV_NAME + "/" + \
-                                   str(entry.user.id) + '.jpg', 'wb')
+                                   str(entry.user.id), 'wb')
                 avatar_file.write(avatar.read())
                 avatar_file.close()
 

@@ -108,7 +108,8 @@ class Service(Thread):
     def run(self):
         """Start the loop to update the service and display their own messages."""
         while True:
-            new_messages = self._normalize_entries(self._get_updates())
+            entries = self._get_updates()
+            new_messages = self._normalize_entries(entries)
             self._add_new_messages(new_messages)
 
             if self.ignore_init_msgs and self.first_run:

@@ -60,13 +60,16 @@ class FacebookService(Service):
 
     def _get_updates(self):
         """Retrieves updates from Facebook notification feed and return an array of entries."""
+        entries = []
         try:
             a = feedparser.parse(self.feed_url)
-            self.logger.debug("Updated")
-            return a['entries']
         except:
             self.logger.error("Update error")
-            return 0
+        else:
+            self.logger.debug("Updated")
+            entries.extend(a['entries'])
+        finally:
+            return entries
 
     def _normalize_entries(self, entries):
         """Normalizes and sorts an array of entries and returns an array of messages."""

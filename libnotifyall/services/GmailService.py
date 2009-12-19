@@ -65,17 +65,16 @@ class GmailService(Service):
         for label in self.labels:
             try:
                 feed = opener.open(self.ATOM_URL + "/" + label[1])
-                self.logger.debug("Updated " + label[1] + " label")
             except urllib2.HTTPError as detail:
                 if str(detail) == "HTTP Error 401: Unauthorized":
                     self.logger.error("Update error in " + label[1] + " label " \
                                   "(You must check your username or password)")
                 else:
                     self.logger.error("Update error in " + label[1] + " label")
-                return 0
-
-            a = feedparser.parse(feed)
-            all_entries.extend(a['entries'])
+            else:
+                self.logger.debug("Updated " + label[1] + " label")
+                a = feedparser.parse(feed)
+                all_entries.extend(a['entries'])
 
         return all_entries
 
