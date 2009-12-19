@@ -34,6 +34,7 @@ class Service(Thread):
         Thread.__init__(self, name=srv_name)
 
         self.logger = logging.getLogger(srv_name.title())
+        self.logger.info("Thread started")
 
         self.configfile = CONFIG_FILE
         self.configdir = CONFIG_DIR

@@ -47,6 +47,7 @@ class FeedService(Service):
         config = ConfigParser.ConfigParser()
 
         config.read(CONFIG_FILE)
+        self._disabled = config.getboolean(self.SRV_NAME, "disabled")
         self.interval = int(config.get(self.SRV_NAME, "interval"))
         self.feeds = config.items("feeds")
 

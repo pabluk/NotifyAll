@@ -21,8 +21,10 @@
 import os
 import time
 import sys
+import logging
 
 from libnotifyall import CONFIG_DIR, CONFIG_FILE
+from libnotifyall import Logger
 from libnotifyall.services import TwitterService
 from libnotifyall.services import GmailService
 from libnotifyall.services import FacebookService
@@ -32,6 +34,8 @@ class NotifyAll:
     """A class that contains all services."""
 
     def __init__(self):
+        self.logger = logging.getLogger('NotifyAll')
+        self.logger.info("Started")
         self.services = []
         if not os.path.exists(CONFIG_DIR):
             self._create_initial_config()
@@ -115,7 +119,8 @@ url2: http://planet.gnome.org/atom.xml
     def start(self):
         """Start a thread for each registered service."""
         for service in self.services:
-            service.start()
+            if not service._disabled:
+                service.start()
 
 
 

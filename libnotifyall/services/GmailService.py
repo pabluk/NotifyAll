@@ -48,6 +48,7 @@ class GmailService(Service):
         config = ConfigParser.ConfigParser()
 
         config.read(CONFIG_FILE)
+        self._disabled = config.getboolean(self.SRV_NAME, "disabled")
         self.username = config.get(self.SRV_NAME, "username")
         self.password = config.get(self.SRV_NAME, "password")
         self.mark_viewed = config.getboolean(self.SRV_NAME, "mark_viewed")

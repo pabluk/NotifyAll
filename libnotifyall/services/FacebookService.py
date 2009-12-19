@@ -48,6 +48,7 @@ class FacebookService(Service):
         config = ConfigParser.ConfigParser()
 
         config.read(CONFIG_FILE)
+        self._disabled = config.getboolean(self.SRV_NAME, "disabled")
         self.fbid = config.get(self.SRV_NAME, "id")
         self.viewer = config.get(self.SRV_NAME, "viewer")
         self.key = config.get(self.SRV_NAME, "key")
