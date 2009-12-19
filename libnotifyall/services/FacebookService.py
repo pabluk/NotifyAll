@@ -58,31 +58,28 @@ class FacebookService(Service):
                         "&key=" + self.key + \
                         "&format=rss20"
 
-    def _update(self):
-        """Gets and stores the entries from Facebook notification feed."""
+    def _get_updates(self):
+        """Retrieves updates from Facebook notification feed and return an array of entries."""
         try:
             a = feedparser.parse(self.feed_url)
-            logging.debug("[" + self.SRV_NAME + "] Update... OK")
+            logging.debug("[" + self.SRV_NAME + "] Updated")
+            return a['entries']
         except:
-            logging.error("[" + self.SRV_NAME + "] Update... ERROR")
-            return 1
+            logging.error("[" + self.SRV_NAME + "] Update error")
+            return 0
 
-        # Sort entries by date ascending order with _reverse()
-        for entry in self._reverse(a['entries']):
-            message_exists = False
+    def _normalize_entries(self, entries):
+        """Normalizes and sorts an array of entries and returns an array of messages."""
+        messages = []
 
-            for message in self.messages:
-                if message.id == entry.link:
-                    message_exists = True
-                    break
+        for entry in self._reverse(entries):
+            if entry.has_key('link') and entry.has_key('title') and entry.has_key('date'):
 
-            if not message_exists:
                 m = Message(entry.link, self.SRV_NAME,
                             entry.title, entry.date,
                             os.getcwd() + "/icons/" + "facebook.png")
-                if self.ignore_init_msgs and self.first_run:
-                    m.viewed = True
-                self.messages.append(m)
+                messages.append(m)
 
-        self.first_run = False
+        return messages
+
 

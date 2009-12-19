@@ -50,36 +50,31 @@ class FeedService(Service):
         self.interval = int(config.get(self.SRV_NAME, "interval"))
         self.feeds = config.items("feeds")
 
-    def _update(self):
-        """Gets and stores the entries from feed."""
-
+    def _get_updates(self):
+        """Retrieves updates from feed and return an array of entries."""
+        all_entries = []
         for feed in self.feeds:
-
             try:
                 a = feedparser.parse(feed[1])
-                logging.debug("[" + self.SRV_NAME + "] Update " + feed[1] +"... OK")
+                logging.debug("[" + self.SRV_NAME + "] Updated " + feed[1])
+                all_entries.extend(a['entries'])
             except:
-                logging.error("[" + self.SRV_NAME + "] Update... ERROR")
-                return 1
+                logging.error("[" + self.SRV_NAME + "] Update error in " + feed[1])
+                return 0
+        return all_entries
     
-            # Sort entries by date ascending order with _reverse()
-            for entry in self._reverse(a['entries']):
-                message_exists = False
-                for message in self.messages:
-                    if message.id == entry.link:
-                        message_exists = True
-                        break
-    
-                if not message_exists:
-                    m = Message(entry.link, self.SRV_NAME,
-                                entry.title, entry.link,
-                                os.getcwd() + "/icons/" + "rss.png")
-    
-                    if self.ignore_init_msgs and self.first_run:
-                        m.viewed = True
-    
-                    self.messages.append(m)
+    def _normalize_entries(self, entries):
+        """Normalizes and sorts an array of entries and returns an array of messages."""
+        messages = []
 
-        self.first_run = False
+        for entry in self._reverse(entries):
+            if entry.has_key('link') and entry.has_key('title'):
+
+                m = Message(entry.link, self.SRV_NAME,
+                            entry.title, entry.link,
+                            os.getcwd() + "/icons/" + "rss.png")
+                messages.append(m)
+
+        return messages
 
 

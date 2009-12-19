@@ -54,9 +54,9 @@ class GmailService(Service):
         self.interval = int(config.get(self.SRV_NAME, "interval"))
         self.labels = config.items("labels")
 
-    def _update(self):
-        """Gets and stores the entries from GMail Atom feed."""
-
+    def _get_updates(self):
+        """Retrieves updates from GMail Atom feed and return an array of entries."""
+        all_entries = []
         auth = urllib2.HTTPBasicAuthHandler()
         auth.add_password("New mail feed", self.ATOM_URL, 
                           self.username, self.password)
@@ -65,33 +65,33 @@ class GmailService(Service):
         for label in self.labels:
             try:
                 feed = opener.open(self.ATOM_URL + "/" + label[1])
-                logging.debug("[" + self.SRV_NAME + "] " + label[1] + " update... OK")
+                logging.debug("[" + self.SRV_NAME + "] Updated " + label[1] + " label")
             except urllib2.HTTPError as detail:
                 if str(detail) == "HTTP Error 401: Unauthorized":
-                    logging.error("[" + self.SRV_NAME + "] " + label[1] + " update... " \
-                                  "ERROR (You must check your " \
-                                  "username or password)")
+                    logging.error("[" + self.SRV_NAME + "] Update error in " + label[1] + " label " \
+                                  "(You must check your username or password)")
                 else:
                     logging.error("[" + self.SRV_NAME + "] " + label[1] + \
-                                  " update... ERROR")
-                return 1
+                                  " update error")
+                return 0
 
             a = feedparser.parse(feed)
+            all_entries.extend(a['entries'])
 
-            for entry in a['entries']:
-                message_exists = False
-                for message in self.messages:
-                    if message.id == entry.link:
-                        message_exists = True
+        return all_entries
 
-                if not message_exists:
-                    m = Message(entry.link, self.SRV_NAME,
-                                entry.author_detail.name, entry.title,
-                                os.getcwd() + "/icons/" + "gmail.png")
-                    self.messages.append(m)
-                else:
-                    if not self.mark_viewed:
-                        message.viewed = False
+    def _normalize_entries(self, entries):
+        """Normalizes and sorts an array of entries and returns an array of messages."""
+        messages = []
 
-        self.first_run = False
+        for entry in entries:
+            if entry.has_key('link') and entry.has_key('title'):
+
+                m = Message(entry.link, self.SRV_NAME,
+                            entry.author_detail.name, entry.title,
+                            os.getcwd() + "/icons/" + "gmail.png")
+                messages.append(m)
+
+        return messages
+
 

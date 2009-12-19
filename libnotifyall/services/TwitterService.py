@@ -54,37 +54,42 @@ class TwitterService(Service):
         if not os.path.exists(CONFIG_DIR + "/" + self.SRV_NAME):
             os.mkdir(CONFIG_DIR + "/" + self.SRV_NAME)
 
-    def _update(self):
-        """Gets and stores the entries from Twitter API."""
+    def _get_updates(self):
+        """Retrieves updates from Twitter API and return an array of entries."""
 
         api = twitter.Api(self.username, self.password)
 
         try:
             statuses = api.GetFriendsTimeline(since_id = self.last_id)
-            logging.debug("[" + self.SRV_NAME + "] Update... OK")
+            logging.debug("[" + self.SRV_NAME + "] Updated")
+            return statuses
         except:
-            logging.error("[" + self.SRV_NAME + "] Update... ERROR")
-            return 1
+            logging.error("[" + self.SRV_NAME + "] Update error")
+            return 0
 
-        # Sort entries by date ascending order with _reverse()
-        for status in self._reverse(statuses):
-            self.last_id = status.id
-            if not (self.ignore_init_msgs and self.first_run):
+    def _normalize_entries(self, entries):
+        """Normalizes and sorts an array of entries and returns an array of messages."""
+        messages = []
 
-                # this block must be enhanced to detect the type of the profile image
-                if not os.path.exists(CONFIG_DIR + "/" + self.SRV_NAME + "/" + \
-                                      str(status.user.id) + ".jpg"):
-                    avatar = urllib2.urlopen(status.user.profile_image_url)
-                    avatar_file = open(CONFIG_DIR + "/" + self.SRV_NAME + "/" + \
-                                       str(status.user.id) + '.jpg', 'wb')
-                    avatar_file.write(avatar.read())
-                    avatar_file.close()
+        for entry in self._reverse(entries):
 
-                m = Message(status.id, self.SRV_NAME,
-                            status.user.name + " (" + \
-                            status.user.screen_name + ")",
-                            status.text, self.configdir + "/" + self.SRV_NAME + "/" + \
-                            str(status.user.id) + ".jpg")
-                self.messages.append(m)
+            # this block must be enhanced to detect the type of the profile image
+            if not os.path.exists(CONFIG_DIR + "/" + self.SRV_NAME + "/" + \
+                                  str(entry.user.id) + ".jpg"):
+                avatar = urllib2.urlopen(entry.user.profile_image_url)
+                avatar_file = open(CONFIG_DIR + "/" + self.SRV_NAME + "/" + \
+                                   str(entry.user.id) + '.jpg', 'wb')
+                avatar_file.write(avatar.read())
+                avatar_file.close()
 
-        self.first_run = False
+            m = Message(entry.id, self.SRV_NAME,
+                        entry.user.name + " (" + \
+                        entry.user.screen_name + ")",
+                        entry.text, self.configdir + "/" + self.SRV_NAME + "/" + \
+                        str(entry.user.id) + ".jpg")
+ 
+            messages.append(m)
+
+        return messages
+
+

@@ -97,10 +97,10 @@ url2: http://planet.gnome.org/atom.xml
     
     def _register_services(self):
         """Add the services available to the array of services."""
-        availables = dict(Twitter=TwitterService,
+        availables = dict(Facebook=FacebookService,
+                          Feed=FeedService,
                           Gmail=GmailService,
-                          Facebook=FacebookService,
-                          Feed=FeedService)
+                          Twitter=TwitterService)
         for name in iter(availables):
             self.services.append(availables[name]())
 

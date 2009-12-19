@@ -52,17 +52,36 @@ class Service(Thread):
         self.disable_libnotify = config.getboolean("notifyall",
                                                    "disable_libnotify")
 
+    def _add_new_messages(self, new_messages):
+        """Add new messages to the array of messages."""
+        # Fixed: maybe this could be improved
+        for new_message in new_messages:
+            message_exists = False
+
+            for message in self.messages:
+                if new_message.id == message.id:
+                    message_exists = True
+                    break
+
+            if not message_exists:
+                self.messages.append(new_message)
+
+    def _mark_as_seen(self):
+        """Mark messages as seen."""
+        for msg in self.messages:
+            if not msg.viewed:
+                msg.viewed = True
+
     def _show_unseen_messages(self):
         """Shows the messages unseen."""
         for msg in self.messages:
             if not msg.viewed:
                 if not self.disable_libnotify and os.environ.has_key('DISPLAY'):
-                    if msg.show():
-                        msg.viewed = True
-                    else:
+                    if not msg.show():
                         break
                 logging.info("[" + msg.service + "] " + msg.title + \
                              ": " + msg.summary)
+                msg.viewed = True
 
     def _unseen_messages(self):
         """Returns the number of unseen messages."""
@@ -80,8 +99,15 @@ class Service(Thread):
     def run(self):
         """Start the loop to update the service and display their own messages."""
         while True:
-            self._update()
-            self._show_unseen_messages()
+            new_messages = self._normalize_entries(self._get_updates())
+            self._add_new_messages(new_messages)
+
+            if self.ignore_init_msgs and self.first_run:
+                self._mark_as_seen()
+                self.first_run = False
+            else:
+                self._show_unseen_messages()
+
             logging.debug("[" + self.SRV_NAME + "] Unseen message(s): " + str(self._unseen_messages()) + " of " + str(len(self.messages)))
             time.sleep(self.interval)
 

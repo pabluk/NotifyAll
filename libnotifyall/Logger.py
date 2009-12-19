@@ -20,7 +20,7 @@
 
 import logging
 
-logging.basicConfig(level=logging.INFO,
+logging.basicConfig(level=logging.DEBUG,
                     datefmt='%H:%M',
                     format='[%(asctime)s] %(levelname)s %(message)s')
 
