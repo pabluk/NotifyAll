@@ -61,10 +61,10 @@ class TwitterService(Service):
 
         try:
             statuses = api.GetFriendsTimeline(since_id = self.last_id)
-            self.logger.debug("[" + self.SRV_NAME + "] Updated")
+            self.logger.debug("Updated")
             return statuses
         except:
-            self.logger.error("[" + self.SRV_NAME + "] Update error")
+            self.logger.error("Update error")
             return 0
 
     def _normalize_entries(self, entries):

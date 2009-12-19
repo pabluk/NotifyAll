@@ -56,10 +56,10 @@ class FeedService(Service):
         for feed in self.feeds:
             try:
                 a = feedparser.parse(feed[1])
-                self.logger.debug("[" + self.SRV_NAME + "] Updated " + feed[1])
+                self.logger.debug("Updated " + feed[1])
                 all_entries.extend(a['entries'])
             except:
-                self.logger.error("[" + self.SRV_NAME + "] Update error in " + feed[1])
+                self.logger.error("Update error in " + feed[1])
                 return 0
         return all_entries
     

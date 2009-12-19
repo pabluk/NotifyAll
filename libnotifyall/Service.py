@@ -33,7 +33,7 @@ class Service(Thread):
     def __init__(self, srv_name):
         Thread.__init__(self, name=srv_name)
 
-        self.logger = logging.getLogger(srv_name)
+        self.logger = logging.getLogger(srv_name.title())
 
         self.configfile = CONFIG_FILE
         self.configdir = CONFIG_DIR
@@ -89,8 +89,7 @@ class Service(Thread):
                 if not self.disable_libnotify and os.environ.has_key('DISPLAY'):
                     if not msg.show():
                         break
-                self.logger.info("[" + msg.service + "] " + msg.title + \
-                             ": " + msg.summary)
+                self.logger.info(msg.title + ": " + msg.summary)
                 msg.viewed = True
 
     def _unseen_messages(self):
@@ -118,7 +117,7 @@ class Service(Thread):
             else:
                 self._show_unseen_messages()
 
-            self.logger.debug("[" + self.SRV_NAME + "] Unseen message(s): " + str(self._unseen_messages()) + " of " + str(len(self.messages)))
+            self.logger.debug("Unseen message(s): " + str(self._unseen_messages()) + " of " + str(len(self.messages)))
             time.sleep(self.interval)
 
 
