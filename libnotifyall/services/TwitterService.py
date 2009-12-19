@@ -78,8 +78,9 @@ class TwitterService(Service):
             if not os.path.exists(CONFIG_DIR + "/" + self.SRV_NAME + "/" + \
                                   str(entry.user.id)):
                 avatar = urllib2.urlopen(entry.user.profile_image_url)
+                exten = avatar.info()['Content-Type'].split('/')[1]
                 avatar_file = open(CONFIG_DIR + "/" + self.SRV_NAME + "/" + \
-                                   str(entry.user.id), 'wb')
+                                   str(entry.user.id) + "." + exten, 'wb')
                 avatar_file.write(avatar.read())
                 avatar_file.close()
 
@@ -87,7 +88,7 @@ class TwitterService(Service):
                         entry.user.name + " (" + \
                         entry.user.screen_name + ")",
                         entry.text, self.configdir + "/" + self.SRV_NAME + "/" + \
-                        str(entry.user.id) + ".jpg")
+                        str(entry.user.id) + "." + exten)
  
             messages.append(m)
 
