@@ -70,6 +70,8 @@ class FeedService(Service):
         for entry in self._reverse(entries):
             if entry.has_key('link') and entry.has_key('title'):
 
+                # We use the link as an id because the id 
+                # provided by some feeds is not reliable
                 m = Message(entry.link, self.SRV_NAME,
                             entry.title, entry.link,
                             os.getcwd() + "/icons/" + "rss.png")
