@@ -48,6 +48,9 @@ class NotifyAll:
 ignore_init_msgs: 0
 # to run without libnotify
 disable_libnotify: 0
+# Valid values for loglevel
+# debug, info, warning, error, critical
+loglevel: info
 
 [twitter]
 username: myuser

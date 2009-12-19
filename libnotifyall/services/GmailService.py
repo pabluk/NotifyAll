@@ -65,13 +65,13 @@ class GmailService(Service):
         for label in self.labels:
             try:
                 feed = opener.open(self.ATOM_URL + "/" + label[1])
-                logging.debug("[" + self.SRV_NAME + "] Updated " + label[1] + " label")
+                self.logger.debug("[" + self.SRV_NAME + "] Updated " + label[1] + " label")
             except urllib2.HTTPError as detail:
                 if str(detail) == "HTTP Error 401: Unauthorized":
-                    logging.error("[" + self.SRV_NAME + "] Update error in " + label[1] + " label " \
+                    self.logger.error("[" + self.SRV_NAME + "] Update error in " + label[1] + " label " \
                                   "(You must check your username or password)")
                 else:
-                    logging.error("[" + self.SRV_NAME + "] " + label[1] + \
+                    self.logger.error("[" + self.SRV_NAME + "] " + label[1] + \
                                   " update error")
                 return 0
 

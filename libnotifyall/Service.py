@@ -33,6 +33,8 @@ class Service(Thread):
     def __init__(self, srv_name):
         Thread.__init__(self, name=srv_name)
 
+        self.logger = logging.getLogger(srv_name)
+
         self.configfile = CONFIG_FILE
         self.configdir = CONFIG_DIR
         self.last_id = 0
@@ -44,6 +46,12 @@ class Service(Thread):
 
     def _load_config(self):
         """Load configuration settings for NotifyAll."""
+        LOG_LEVELS = {'debug': logging.DEBUG,
+                      'info': logging.INFO,
+                      'warning': logging.WARNING,
+                      'error': logging.ERROR,
+                      'critical': logging.CRITICAL}
+
         config = ConfigParser.ConfigParser()
 
         config.read(CONFIG_FILE)
@@ -51,6 +59,8 @@ class Service(Thread):
                                                   "ignore_init_msgs")
         self.disable_libnotify = config.getboolean("notifyall",
                                                    "disable_libnotify")
+        self.loglevel = config.get("notifyall", "loglevel")
+        self.logger.setLevel(LOG_LEVELS.get(self.loglevel, logging.INFO))
 
     def _add_new_messages(self, new_messages):
         """Add new messages to the array of messages."""
@@ -79,7 +89,7 @@ class Service(Thread):
                 if not self.disable_libnotify and os.environ.has_key('DISPLAY'):
                     if not msg.show():
                         break
-                logging.info("[" + msg.service + "] " + msg.title + \
+                self.logger.info("[" + msg.service + "] " + msg.title + \
                              ": " + msg.summary)
                 msg.viewed = True
 
@@ -108,7 +118,7 @@ class Service(Thread):
             else:
                 self._show_unseen_messages()
 
-            logging.debug("[" + self.SRV_NAME + "] Unseen message(s): " + str(self._unseen_messages()) + " of " + str(len(self.messages)))
+            self.logger.debug("[" + self.SRV_NAME + "] Unseen message(s): " + str(self._unseen_messages()) + " of " + str(len(self.messages)))
             time.sleep(self.interval)
 
 
