@@ -42,7 +42,7 @@ class FeedService(Service):
 
     def load_config(self):
         """Load configuration settings from the feed section in CONFIG_FILE."""
-        Service.load_config(self)
+        Service._load_config(self)
 
         config = ConfigParser.ConfigParser()
 
@@ -50,7 +50,7 @@ class FeedService(Service):
         self.interval = int(config.get(self.SRV_NAME, "interval"))
         self.feeds = config.items("feeds")
 
-    def update(self):
+    def _update(self):
         """Gets and stores the entries from feed."""
 
         for feed in self.feeds:

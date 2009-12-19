@@ -43,7 +43,7 @@ class GmailService(Service):
 
     def load_config(self):
         """Load configuration settings from the gmail section in CONFIG_FILE."""
-        Service.load_config(self)
+        Service._load_config(self)
 
         config = ConfigParser.ConfigParser()
 
@@ -54,7 +54,7 @@ class GmailService(Service):
         self.interval = int(config.get(self.SRV_NAME, "interval"))
         self.labels = config.items("labels")
 
-    def update(self):
+    def _update(self):
         """Gets and stores the entries from GMail Atom feed."""
 
         auth = urllib2.HTTPBasicAuthHandler()

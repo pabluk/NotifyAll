@@ -43,7 +43,7 @@ class FacebookService(Service):
         
     def load_config(self):
         """Load configuration settings from the facebook section in CONFIG_FILE."""
-        Service.load_config(self)
+        Service._load_config(self)
 
         config = ConfigParser.ConfigParser()
 
@@ -58,7 +58,7 @@ class FacebookService(Service):
                         "&key=" + self.key + \
                         "&format=rss20"
 
-    def update(self):
+    def _update(self):
         """Gets and stores the entries from Facebook notification feed."""
         try:
             a = feedparser.parse(self.feed_url)

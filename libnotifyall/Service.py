@@ -40,9 +40,9 @@ class Service(Thread):
         self.first_run = True
         self.ignore_init_msgs = False
         self.disable_libnotify = False
-        self.load_config()
+        self._load_config()
 
-    def load_config(self):
+    def _load_config(self):
         """Load configuration settings for NotifyAll."""
         config = ConfigParser.ConfigParser()
 
@@ -52,11 +52,7 @@ class Service(Thread):
         self.disable_libnotify = config.getboolean("notifyall",
                                                    "disable_libnotify")
 
-    def update(self):
-        """This method must be abstract."""
-        pass
-
-    def show_messages(self):
+    def _show_unseen_messages(self):
         """Shows the messages unseen."""
         for msg in self.messages:
             if not msg.viewed:
@@ -84,8 +80,8 @@ class Service(Thread):
     def run(self):
         """Start the loop to update the service and display their own messages."""
         while True:
-            self.update()
-            self.show_messages()
+            self._update()
+            self._show_unseen_messages()
             logging.debug("[" + self.SRV_NAME + "] Unseen message(s): " + str(self._unseen_messages()) + " of " + str(len(self.messages)))
             time.sleep(self.interval)
 

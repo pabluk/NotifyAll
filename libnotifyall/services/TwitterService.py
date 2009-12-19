@@ -41,7 +41,7 @@ class TwitterService(Service):
 
     def load_config(self):
         """Load configuration settings from the twitter section in CONFIG_FILE."""
-        Service.load_config(self)
+        Service._load_config(self)
 
         config = ConfigParser.ConfigParser()
 
@@ -54,7 +54,7 @@ class TwitterService(Service):
         if not os.path.exists(CONFIG_DIR + "/" + self.SRV_NAME):
             os.mkdir(CONFIG_DIR + "/" + self.SRV_NAME)
 
-    def update(self):
+    def _update(self):
         """Gets and stores the entries from Twitter API."""
 
         api = twitter.Api(self.username, self.password)
