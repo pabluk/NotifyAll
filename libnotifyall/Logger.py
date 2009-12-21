@@ -22,5 +22,5 @@ import logging
 
 logging.basicConfig(level=logging.INFO,
                     datefmt='%H:%M',
-                    format='[%(asctime)s][%(name)s] %(message)s')
+                    format='[%(asctime)s][%(levelname)s:%(name)s] %(message)s')
 
