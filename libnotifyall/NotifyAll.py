@@ -57,11 +57,13 @@ disable_libnotify: 0
 loglevel: info
 
 [twitter]
+disabled: 0
 username: myuser
 password: mypass
 interval: 35
 
 [gmail]
+disabled: 0
 username: myuser
 password: mypass
 # mark_viewed:
@@ -78,6 +80,7 @@ label2: Label2
 label3: Label3
 
 [facebook]
+disabled: 0
 # to see this values you must 
 # visit http://www.facebook.com/notifications.php
 # in your Facebook account and see the link for RSS
@@ -87,6 +90,7 @@ key: 0000
 interval: 60
 
 [feed]
+disabled: 0
 interval: 120
 
 [feeds]
