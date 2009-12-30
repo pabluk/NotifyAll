@@ -51,7 +51,6 @@ class GmailService(Service):
         self._disabled = config.getboolean(self.SRV_NAME, "disabled")
         self.username = config.get(self.SRV_NAME, "username")
         self.password = config.get(self.SRV_NAME, "password")
-        self.mark_viewed = config.getboolean(self.SRV_NAME, "mark_viewed")
         self.interval = int(config.get(self.SRV_NAME, "interval"))
         self.labels = config.items("labels")
 
