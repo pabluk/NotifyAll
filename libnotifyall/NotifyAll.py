@@ -54,7 +54,7 @@ ignore_init_msgs: 0
 disable_libnotify: 0
 # Valid values for loglevel
 # debug, info, warning, error, critical
-loglevel: info
+loglevel: debug
 
 [twitter]
 disabled: 0
