@@ -90,8 +90,6 @@ class TwitterService(Service):
                     avatar_file.close()
                     icon = self.configdir + "/" + self.SRV_NAME + "/" + \
                            str(entry.user.id)
-            else:
-                self.logger.debug("Image profile for " + entry.user.screen_name + " exists")
 
             m = Message(entry.id, self.SRV_NAME,
                         entry.user.name + " (" + \
