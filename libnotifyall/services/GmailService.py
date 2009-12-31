@@ -71,6 +71,8 @@ class GmailService(Service):
                                   "(You must check your username or password)")
                 else:
                     self.logger.error("Update error in " + label[1] + " label")
+            except urllib2.URLError as detail:
+                    self.logger.error("Update error in " + label[1] + " label")
             else:
                 self.logger.debug("Updated " + label[1] + " label")
                 a = feedparser.parse(feed)
