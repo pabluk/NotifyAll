@@ -75,20 +75,28 @@ class TwitterService(Service):
 
         for entry in self._reverse(entries):
 
-            if not os.path.exists(CONFIG_DIR + "/" + self.SRV_NAME + "/" + \
-                                  str(entry.user.id)):
-                avatar = urllib2.urlopen(entry.user.profile_image_url)
-                exten = avatar.info()['Content-Type'].split('/')[1]
-                avatar_file = open(CONFIG_DIR + "/" + self.SRV_NAME + "/" + \
-                                   str(entry.user.id) + "." + exten, 'wb')
-                avatar_file.write(avatar.read())
-                avatar_file.close()
+            icon = CONFIG_DIR + "/" + self.SRV_NAME + "/" + str(entry.user.id)
+            if not os.path.exists(icon):
+                try:
+                    avatar = urllib2.urlopen(entry.user.profile_image_url)
+                    self.logger.debug("Fetching image profile for " + entry.user.screen_name)
+                except:
+                    self.logger.error("Error fetching image profile for " + entry.user.screen_name)
+                    icon = os.getcwd() + "/icons/" + "twitter.png"
+                else:
+                    avatar_file = open(CONFIG_DIR + "/" + self.SRV_NAME + "/" + \
+                                    str(entry.user.id), 'wb')
+                    avatar_file.write(avatar.read())
+                    avatar_file.close()
+                    icon = self.configdir + "/" + self.SRV_NAME + "/" + \
+                           str(entry.user.id)
+            else:
+                self.logger.debug("Image profile for " + entry.user.screen_name + " exists")
 
             m = Message(entry.id, self.SRV_NAME,
                         entry.user.name + " (" + \
                         entry.user.screen_name + ")",
-                        entry.text, self.configdir + "/" + self.SRV_NAME + "/" + \
-                        str(entry.user.id) + "." + exten)
+                        entry.text, icon)
  
             messages.append(m)
 
