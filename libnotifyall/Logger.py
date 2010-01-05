@@ -20,7 +20,11 @@
 
 import logging
 
-logging.basicConfig(level=logging.INFO,
+from libnotifyall import CONFIG_DIR
+
+LOG_FILENAME = CONFIG_DIR + '/' + 'notifyall.log'
+
+logging.basicConfig(filename=LOG_FILENAME, level=logging.INFO,
                     datefmt='%H:%M',
                     format='[%(asctime)s][%(levelname)s:%(name)s] %(message)s')
 
