@@ -79,11 +79,12 @@ class FacebookService(Service):
         for entry in self._reverse(entries):
             if entry.has_key('link') and entry.has_key('title') and entry.has_key('date'):
 
+                icon = os.path.realpath(os.path.dirname(sys.argv[0])) + "/icons/" + "facebook.png"
+
                 # We use the link as an id because the id 
                 # provided is not reliable
                 m = Message(entry.link, self.SRV_NAME,
-                            entry.title, entry.date,
-                            os.getcwd() + "/icons/" + "facebook.png")
+                            entry.title, entry.date, icon)
                 messages.append(m)
 
         return messages
