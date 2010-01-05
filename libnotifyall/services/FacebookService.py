@@ -81,9 +81,9 @@ class FacebookService(Service):
 
                 icon = os.path.realpath(os.path.dirname(sys.argv[0])) + "/icons/" + "facebook.png"
 
-                # We use the link as an id because the id 
+                # We use the entry.guid as an id because the id 
                 # provided is not reliable
-                m = Message(entry.link, self.SRV_NAME,
+                m = Message(entry.guid, self.SRV_NAME,
                             entry.title, entry.date, icon)
                 messages.append(m)
 
