@@ -79,7 +79,7 @@ class FacebookService(Service):
         for entry in self._reverse(entries):
             if entry.has_key('link') and entry.has_key('title') and entry.has_key('date'):
 
-                icon = os.path.realpath(os.path.dirname(sys.argv[0])) + "/icons/" + "facebook.png"
+                icon = os.path.join(os.path.realpath(os.path.dirname(sys.argv[0])), 'icons', 'facebook.png')
 
                 # We use the entry.guid as an id because the id 
                 # provided is not reliable

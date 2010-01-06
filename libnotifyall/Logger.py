@@ -18,11 +18,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import os
 import logging
 
 from libnotifyall import CONFIG_DIR
 
-LOG_FILENAME = CONFIG_DIR + '/' + 'notifyall.log'
+LOG_FILENAME = os.path.join(CONFIG_DIR, 'notifyall.log')
 
 logging.basicConfig(filename=LOG_FILENAME, level=logging.INFO,
                     datefmt='%H:%M',

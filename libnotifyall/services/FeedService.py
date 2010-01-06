@@ -71,7 +71,7 @@ class FeedService(Service):
         for entry in self._reverse(entries):
             if entry.has_key('link') and entry.has_key('title'):
 
-                icon = os.path.realpath(os.path.dirname(sys.argv[0])) + "/icons/" + "rss.png"
+                icon = os.path.join(os.path.realpath(os.path.dirname(sys.argv[0])), 'icons', 'rss.png')
 
                 # We use the link as an id because the id 
                 # provided by some feeds is not reliable

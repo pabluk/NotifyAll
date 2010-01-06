@@ -87,7 +87,7 @@ class GmailService(Service):
         for entry in entries:
             if entry.has_key('link') and entry.has_key('title'):
 
-                icon = os.path.realpath(os.path.dirname(sys.argv[0])) + "/icons/" + "gmail.png"
+                icon = os.path.join(os.path.realpath(os.path.dirname(sys.argv[0])), 'icons', 'gmail.png')
                 m = Message(entry.link, self.SRV_NAME,
                             entry.author_detail.name, entry.title, icon)
                 messages.append(m)
