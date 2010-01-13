@@ -62,8 +62,8 @@ class Service(Thread):
         self.loglevel = config.get("notifyall", "loglevel")
         self.logger.setLevel(LOG_LEVELS.get(self.loglevel, logging.INFO))
 
-    def _add_new_messages(self, new_messages):
-        """Add new messages to the array of messages."""
+    def _update_messages(self, new_messages):
+        """Update the array of messages."""
         # Fixed: maybe this could be improved
         for new_message in new_messages:
 
@@ -122,7 +122,7 @@ class Service(Thread):
         while True:
             entries = self._get_updates()
             new_messages = self._normalize_entries(entries)
-            self._add_new_messages(new_messages)
+            self._update_messages(new_messages)
             self._save_messages()
             self._show_unseen_messages()
 
