@@ -20,6 +20,7 @@
 
 import os
 import time
+import pickle
 import logging
 import ConfigParser
 from threading import Thread
@@ -31,11 +32,8 @@ class Service(Thread):
     """Threading class base for services."""
 
     def __init__(self, srv_name):
-        Thread.__init__(self, name=srv_name)
 
-        self.logger = logging.getLogger(srv_name.title())
-        self.logger.info("Thread started")
-
+        self.srv_name = srv_name
         self.configfile = CONFIG_FILE
         self.configdir = CONFIG_DIR
         self.last_id = 0
@@ -43,6 +41,11 @@ class Service(Thread):
         self.first_run = True
         self.ignore_init_msgs = False
         self.disable_libnotify = False
+        self.logger = logging.getLogger(srv_name.title())
+
+        Thread.__init__(self, name=srv_name)
+        self.logger.info("Thread started")
+
         self._load_config()
 
     def _load_config(self):
@@ -106,12 +109,31 @@ class Service(Thread):
         for index in range(len(data)-1, -1, -1):
             yield data[index]
 
+    def _load_messages(self):
+        filename = os.path.join(self.configdir, self.srv_name + '.dat')
+        if os.path.exists(filename):
+            file = open(filename, 'r')
+            self.messages = pickle.load(file)
+            self.logger.debug("Loaded messages")
+        else:
+            self.logger.debug("Messages file does not exist")
+        return
+
+    def _save_messages(self):
+        filename = os.path.join(self.configdir, self.srv_name + '.dat')
+        file = open(filename, 'w')
+        pickle.dump(self.messages, file)
+        self.logger.debug("Saved messages")
+        return
+
     def run(self):
         """Start the loop to update the service and display their own messages."""
+        self._load_messages()
         while True:
             entries = self._get_updates()
             new_messages = self._normalize_entries(entries)
             self._add_new_messages(new_messages)
+            self._save_messages()
 
             if self.ignore_init_msgs and self.first_run:
                 self._mark_as_seen()
