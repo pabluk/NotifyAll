@@ -66,15 +66,15 @@ class Service(Thread):
         """Add new messages to the array of messages."""
         # Fixed: maybe this could be improved
         for new_message in new_messages:
-            message_exists = False
 
             for message in self.messages:
                 if new_message.id == message.id:
-                    message_exists = True
+                    if message.viewed == True:
+                        new_message.viewed = True
                     break
 
-            if not message_exists:
-                self.messages.append(new_message)
+        self.messages = new_messages
+        return
 
     def _show_unseen_messages(self):
         """Shows the messages unseen."""
