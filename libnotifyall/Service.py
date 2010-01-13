@@ -44,7 +44,7 @@ class Service(Thread):
         self.logger = logging.getLogger(srv_name.title())
 
         Thread.__init__(self, name=srv_name)
-        self.logger.info("Thread started")
+        self.logger.debug("Thread started")
 
         self._load_config()
 

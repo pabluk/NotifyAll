@@ -35,7 +35,7 @@ class NotifyAll:
 
     def __init__(self):
         self.logger = logging.getLogger('NotifyAll')
-        self.logger.info("Started")
+        self.logger.debug("Started")
         self.services = []
         if not os.path.exists(CONFIG_DIR):
             self._create_initial_config()
