@@ -48,8 +48,6 @@ class NotifyAll:
         f = open(CONFIG_FILE, 'w')
         configdata = """
 [notifyall]
-# show old messages
-ignore_init_msgs: 0
 # to run without libnotify
 disable_libnotify: 0
 # Valid values for loglevel

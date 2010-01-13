@@ -38,8 +38,6 @@ class Service(Thread):
         self.configdir = CONFIG_DIR
         self.last_id = 0
         self.messages = []
-        self.first_run = True
-        self.ignore_init_msgs = False
         self.disable_libnotify = False
         self.logger = logging.getLogger(srv_name.title())
 
@@ -59,8 +57,6 @@ class Service(Thread):
         config = ConfigParser.ConfigParser()
 
         config.read(CONFIG_FILE)
-        self.ignore_init_msgs = config.getboolean("notifyall",
-                                                  "ignore_init_msgs")
         self.disable_libnotify = config.getboolean("notifyall",
                                                    "disable_libnotify")
         self.loglevel = config.get("notifyall", "loglevel")
@@ -79,12 +75,6 @@ class Service(Thread):
 
             if not message_exists:
                 self.messages.append(new_message)
-
-    def _mark_as_seen(self):
-        """Mark messages as seen."""
-        for msg in self.messages:
-            if not msg.viewed:
-                msg.viewed = True
 
     def _show_unseen_messages(self):
         """Shows the messages unseen."""
@@ -134,12 +124,7 @@ class Service(Thread):
             new_messages = self._normalize_entries(entries)
             self._add_new_messages(new_messages)
             self._save_messages()
-
-            if self.ignore_init_msgs and self.first_run:
-                self._mark_as_seen()
-                self.first_run = False
-            else:
-                self._show_unseen_messages()
+            self._show_unseen_messages()
 
             self.logger.debug("Unseen message(s): " + str(self._unseen_messages()) + " of " + str(len(self.messages)))
             time.sleep(self.interval)
