@@ -29,7 +29,7 @@ import feedparser
 
 from libnotifyall import CONFIG_DIR, CONFIG_FILE
 from libnotifyall import Message
-from libnotifyall import Service
+from libnotifyall import Service, ServiceError
 from libnotifyall import Logger
 
 class FacebookService(Service):
@@ -62,15 +62,17 @@ class FacebookService(Service):
     def _get_updates(self):
         """Retrieves updates from Facebook notification feed and return an array of entries."""
         entries = []
+        opener = urllib2.build_opener()
         try:
-            a = feedparser.parse(self.feed_url)
+            feed = opener.open(self.feed_url)
         except:
-            self.logger.error("Update error")
+            raise ServiceError('Update error')
         else:
-            self.logger.debug("Updated")
+            a = feedparser.parse(feed)
             entries.extend(a['entries'])
-        finally:
-            return entries
+            self.logger.debug("Updated")
+
+        return entries
 
     def _normalize_entries(self, entries):
         """Normalizes and sorts an array of entries and returns an array of messages."""

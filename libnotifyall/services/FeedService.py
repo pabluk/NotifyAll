@@ -29,7 +29,7 @@ import feedparser
 
 from libnotifyall import CONFIG_DIR, CONFIG_FILE
 from libnotifyall import Message
-from libnotifyall import Service
+from libnotifyall import Service, ServiceError
 from libnotifyall import Logger
 
 class FeedService(Service):
@@ -54,14 +54,17 @@ class FeedService(Service):
     def _get_updates(self):
         """Retrieves updates from feed and return an array of entries."""
         all_entries = []
+        opener = urllib2.build_opener()
         for feed in self.feeds:
             try:
-                a = feedparser.parse(feed[1])
+                f = opener.open(feed[1])
             except:
-                self.logger.error("Update error in " + feed[1])
+                raise ServiceError("Update error")
             else:
-                self.logger.debug("Updated " + feed[1])
+                a = feedparser.parse(f)
                 all_entries.extend(a['entries'])
+                self.logger.debug("Updated " + feed[1])
+
         return all_entries
     
     def _normalize_entries(self, entries):

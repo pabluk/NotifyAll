@@ -29,7 +29,7 @@ import feedparser
 
 from libnotifyall import CONFIG_DIR, CONFIG_FILE
 from libnotifyall import Message
-from libnotifyall import Service
+from libnotifyall import Service, ServiceError
 from libnotifyall import Logger
 
 class GmailService(Service):
@@ -67,16 +67,16 @@ class GmailService(Service):
                 feed = opener.open(self.ATOM_URL + "/" + label[1])
             except urllib2.HTTPError as detail:
                 if str(detail) == "HTTP Error 401: Unauthorized":
-                    self.logger.error("Update error in " + label[1] + " label " \
+                    raise ServiceError("Update error" \
                                   "(You must check your username or password)")
                 else:
-                    self.logger.error("Update error in " + label[1] + " label")
+                    raise ServiceError("Update error")
             except urllib2.URLError as detail:
-                    self.logger.error("Update error in " + label[1] + " label")
+                    raise ServiceError("Update error")
             else:
-                self.logger.debug("Updated " + label[1] + " label")
                 a = feedparser.parse(feed)
                 all_entries.extend(a['entries'])
+                self.logger.debug("Updated " + label[1] + " label")
 
         return all_entries
 

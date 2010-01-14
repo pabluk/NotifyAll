@@ -28,7 +28,7 @@ import twitter
 
 from libnotifyall import CONFIG_DIR, CONFIG_FILE
 from libnotifyall import Message
-from libnotifyall import Service
+from libnotifyall import Service, ServiceError
 from libnotifyall import Logger
 
 class TwitterService(Service):
@@ -63,11 +63,11 @@ class TwitterService(Service):
         try:
             statuses = api.GetFriendsTimeline()
         except:
-            self.logger.error("Update error")
+            raise ServiceError('Update error')
         else:
             self.logger.debug("Updated")
-        finally:
-            return statuses
+        
+        return statuses
 
     def _normalize_entries(self, entries):
         """Normalizes and sorts an array of entries and returns an array of messages."""

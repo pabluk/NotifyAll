@@ -120,13 +120,24 @@ class Service(Thread):
         """Start the loop to update the service and display their own messages."""
         self._load_messages()
         while True:
-            entries = self._get_updates()
-            new_messages = self._normalize_entries(entries)
-            self._update_messages(new_messages)
-            self._save_messages()
-            self._show_unseen_messages()
+            try:
+                entries = self._get_updates()
+            except ServiceError as error:
+                self.logger.error(error.description)
+            else:
+                new_messages = self._normalize_entries(entries)
+                self._update_messages(new_messages)
+                self._save_messages()
+                self._show_unseen_messages()
 
             self.logger.debug("Unseen message(s): " + str(self._unseen_messages()) + " of " + str(len(self.messages)))
             time.sleep(self.interval)
 
+
+class ServiceError(Exception):
+    def __init__(self, description):
+        self.description = description
+
+    def __str__(self):
+        return repr(self.descripton)
 
